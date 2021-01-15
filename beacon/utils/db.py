@@ -630,3 +630,21 @@ async def _count_cohorts(connection,
 
 def count_cohorts_by_cohort(qparams_db, datasets, authenticated):
     return _count_cohorts(qparams_db, datasets, authenticated, cohort_id=qparams_db.targetIdReq)
+# function for ontologies filter autocomplete feature
+@pool.asyncgen_execute
+async def fetch_ontologies(connection, term, limit):
+    LOG.info('Retrieving ontologies information')
+
+    query = f"""SELECT t.ontology, t.term, t.label as meaning
+                FROM {conf.database_schema}.ontology_term t
+                WHERE t.ontology ILIKE  '%' || $1 || '%'
+                OR t.term ILIKE  '%' || $1 || '%'
+                OR t.label ILIKE  '%' || $1 || '%'
+                OR CONCAT_WS(':', t.ontology, t.term) ILIKE  '%' || $1 || '%' 
+                ORDER BY t.ontology, t.term ASC
+                LIMIT $2;"""
+    LOG.debug("QUERY: %s", query)
+    statement = await connection.prepare(query)
+    response = await statement.fetch(str(term), limit)
+    for record in response:
+        yield record

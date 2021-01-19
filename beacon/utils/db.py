@@ -635,7 +635,7 @@ def count_cohorts_by_cohort(qparams_db, datasets, authenticated):
 async def fetch_ontologies(connection, term, limit):
     LOG.info('Retrieving ontologies information')
 
-    query = f"""SELECT t.ontology, t.term, t.label as meaning
+    query = f"""SELECT DISTINCT t.ontology, t.term, t.label as meaning
                 FROM {conf.database_schema}.ontology_term t
                 WHERE t.ontology ILIKE  '%' || $1 || '%'
                 OR t.term ILIKE  '%' || $1 || '%'

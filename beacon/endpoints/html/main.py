@@ -51,7 +51,8 @@ def _fetch_results(resultOption, targetInstance, qparams_db, datasets, authentic
 class Parameters(RequestParameters):
 
     # Variant filters
-    variantQuery = RegexField(r'^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*(DEL:ME|INS:ME|DUP:TANDEM|DUP|DEL|INS|INV|CNV|SNP|MNP|[ATCGN]+)$',
+    # variantQuery = RegexField(r'^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*(DEL:ME|INS:ME|DUP:TANDEM|DUP|DEL|INS|INV|CNV|SNP|MNP|[ATCGN]+)$',
+    variantQuery = RegexField(r'^(X|Y|MT|[1-9]|1[0-9]|2[0-2])\s*\:\s*(\d+)\s+([ATCGN]+)\s*\>\s*(DEL|INS|SNP|[ATCGN]+)$',
                        required=False,
                        ignore_case=True)
 
@@ -76,6 +77,7 @@ class Parameters(RequestParameters):
     endMax = Field(required=False)
     reference = Field(required=False)
     alternate = Field(required=False)
+    variantType = Field(required=False)
 
     def correlate(self, req, values):
 
@@ -85,6 +87,9 @@ class Parameters(RequestParameters):
         elif values.variantPosOption == "variant-pos-range":
             start = list(filter(None,[values.startMin, values.startMax]))
             end = list(filter(None,[values.endMin, values.endMax]))
+        else:
+            start = None
+            end = None
 
         LOG.debug("""
         VALIDATION
@@ -311,6 +316,7 @@ async def handler_post(request):
     reference = None
     alternate = None
     assembly_id = None
+    variant_type = None
 
     if qparams_raw.get("variantOption") == "advanced":
         assembly_id = qparams_db.assemblyIdAdvanced if qparams_db.assemblyIdAdvanced != "" else None
@@ -330,6 +336,7 @@ async def handler_post(request):
         end = list(filter(None,[endMin, endMax]))
         reference = qparams_raw.get("reference") if qparams_raw.get("reference") != "" else None
         alternate = qparams_raw.get("alternate") if qparams_raw.get("alternate") != "" else None
+        variant_type = qparams_raw.get("variantType") if qparams_raw.get("variantType") != "" else None
     else:
         assembly_id = qparams_db.assemblyIdBasic if qparams_db.assemblyIdBasic != "" else None
 
@@ -341,18 +348,23 @@ async def handler_post(request):
             chromosome = m.group(1)
             start = [int(m.group(2))]
             reference = m.group(3).upper()
-            alternate = m.group(4).upper()
+            forth_group = m.group(4).upper()
+            if forth_group in ["A", "C", "G", "T", "N"]:
+                alternate = forth_group
+            elif forth_group in ["SNP", "INS", "DEL"]:
+                variant_type = forth_group
     LOG.debug("""
     Chromosome: %s
     Start: %s
     End: %s
     Reference: %s
-    Alternate: %s""", 
-    chromosome, start, end, reference, alternate)
+    Alternate: %s, 
+    Variant type: %s""", 
+    chromosome, start, end, reference, alternate, variant_type)
 
     # prepare qparams
     parameters = {
-        "variantType": None,  # HARDCODED
+        "variantType": variant_type,
         "start": tuple(start) if start else tuple(),  # two items tuple
         "end": tuple(end) if end else tuple(),  # two items tuple
         "referenceName": chromosome,

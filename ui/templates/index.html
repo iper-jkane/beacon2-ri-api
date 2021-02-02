@@ -115,6 +115,12 @@
               <option title="Chromosome Y" value="Y" {% if variantOption == 'advanced' and qparams and qparams.referenceName and qparams.referenceName == 'Y' %}selected{% endif %}> Y </option>
               <option title="Chromosome MT" value="MT" {% if variantOption == 'advanced' and qparams and qparams.referenceName and qparams.referenceName == 'MT' %}selected{% endif %}> MT </option>
             </select>
+            <select name="variantType">
+              <option value="">Variant Type</option>
+              <option value="SNP" {% if variantOption == 'advanced' and qparams and qparams.variantType and qparams.variantType == 'SNP' %}selected{% endif %}>SNP</option>
+              <option value="INS" {% if variantOption == 'advanced' and qparams and qparams.variantType and qparams.variantType == 'INS' %}selected{% endif %}>INS</option>
+              <option value="DEL" {% if variantOption == 'advanced' and qparams and qparams.variantType and qparams.variantType == 'DEL' %}selected{% endif %}>DEL</option>
+            </select>
             <div id="variant-pos-selection">
               <input id="variant-exact" type="radio" name="variantPosOption" value="variant-pos-exact" {% if variantPosOption == 'variant-pos-exact' %}checked{% endif %}> <label for="variant-exact">Exact</label>
               <input id="variant-range" type="radio" name="variantPosOption" value="variant-pos-range" {% if variantPosOption == 'variant-pos-range' %}checked{% endif %}> <label for="variant-range">Range</label>
@@ -129,8 +135,8 @@
               <input type="number" name="endMin" min="0" value="{% if variantOption == 'advanced' and variantPosOption == 'variant-pos-range' and qparams %}{{qparams.end[0]}}{% endif %}" placeholder="min end">
               <input type="number" name="endMax" min="0" value="{% if variantOption == 'advanced' and variantPosOption == 'variant-pos-range' and qparams %}{{qparams.end[1]}}{% endif %}" placeholder="max end">
             </div>
-            <input class="variant-bases-input" type="text" name="reference" pattern="^([ACGT]+)$" title="A, C, G or T" value="{% if variantOption == 'advanced' and variantPosOption == 'variant-pos-range' and qparams %}{{qparams.referenceBases}}{% endif %}" placeholder="reference">
-            <input class="variant-bases-input" type="text" name="alternate" pattern="^([ACGT]+)$" title="A, C, G or T" value="{% if variantOption == 'advanced' and variantPosOption == 'variant-pos-range' and qparams %}{{qparams.alternateBases}}{% endif %}" placeholder="alternate">  
+            <input class="variant-bases-input" type="text" name="reference" pattern="^([ACGT]+)$" title="A, C, G or T" value="{% if variantOption == 'advanced' and qparams %}{{qparams.referenceBases}}{% endif %}" placeholder="reference">
+            <input class="variant-bases-input" type="text" name="alternate" pattern="^([ACGT]+)$" title="A, C, G or T" value="{% if variantOption == 'advanced' and qparams %}{{qparams.alternateBases}}{% endif %}" placeholder="alternate">  
 
           </div>
           <p>Datasets</p>

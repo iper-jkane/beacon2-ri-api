@@ -1,22 +1,47 @@
 <div id="table-wrapper">
     <table id="main-result">
         {% if records %}
-        <thead>
-            <tr>
-                {% for column_name in records[0].keys() %}
-                <th>{{column_name}}</th>
-                {% endfor %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for record in records%}
-            <tr>
-                {% for column_value in record.values() %}
-                <td>{{ column_value|default("-",true) }}</td>
-                {% endfor %}
-            </tr>
-            {% endfor %}
-        </tbody>
+            {% if not filtering_terms_page %}
+                <thead>
+                    <tr>
+                        <th>datasetId</th>
+                        <th>name</th>
+                        <th>description</th>
+                        <th>datasetSource</th>
+                        <th>accessType</th>
+                        <th>assemblyId</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records%}
+                    <tr>
+                        <td>{{ record.datasetId|default("-",true) }}</td>
+                        <td>{{ record.name|default("-",true) }}</td>
+                        <td>{{ record.description|default("-",true) }}</td>
+                        <td>{{ record.datasetSource|default("-",true) }}</td>
+                        <td>{{ record.accessType|default("-",true) }}</td>
+                        <td>{{ record.assemblyId|default("-",true) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            {% else %}
+                <thead>
+                    <tr>
+                        <th>ontology</th>
+                        <th>term</th>
+                        <th>label</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in records%}
+                    <tr>
+                        <td>{{ record.ontology|default("-",true) }}</td>
+                        <td>{{ record.term|default("-",true) }}</td>
+                        <td>{{ record.label|default("-",true) }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            {% endif %}
         {% endif %}
     </table>
 </div>

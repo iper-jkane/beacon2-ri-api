@@ -8,8 +8,6 @@
                 <th>Description</th>
                 <th>Biosample Status</th>
                 <th>Obtention Procedure</th>
-                <th>Tumor Progression</th>
-                <th>Tumor Grade</th>
                 <th>Subject Age at Collection</th>
                 <th>Collection Date</th>
                 <th>Alternative IDs</th>
@@ -26,8 +24,6 @@
                     <td>{{ record.description|default("-",true) }}</td>
                     <td title="Ontology term: {{record.biosample_status_ontology|default("-",true)}}">{{ record.biosample_status_ontology_label|default("-",true) }}</td>
                     <td title="Ontology term: {{record.obtention_procedure_ontology|default("-",true)}}">{{ record.obtention_procedure_ontology_label|default("-",true) }}</td>
-                    <td title="Ontology term: {{record.tumor_progression_ontology|default("-",true)}}">{{ record.tumor_progression_ontology_label|default("-",true) }}</td>
-                    <td title="Ontology term: {{record.tumor_grade_ontology|default("-",true)}}">{{ record.tumor_grade_ontology_label|default("-",true) }}</td>
                     <td>{{ record.individual_age_at_collection|default("-",true) }}</td>
                     <td>{{ record.collection_date|default("-",true) }}</td>
                     <td>{{ record.alternative_ids|default("-",true)|join(", ") }}</td>
@@ -36,6 +32,25 @@
 
                     <td class="hidden">
                         <h1><i class="fas fa-times close-button"></i>Sample {{ record.biosample_stable_id|default("-",true) }}</h1>
+                        <section>
+                            <h2>Tumor Parameters</h2>
+                            <div class="extra-info-table-wrapper">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>tumorProgression</th>
+                                            <th>tumorGrade</th>                            
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            {% if record.tumor_progression_ontology %}<td><td title="Ontology term: {{record.tumor_progression_ontology|default("-",true)}}">{{ record.tumor_progression_ontology_label }}</td></td>{% endif %}
+                                            {% if record.tumor_grade_ontology %}<td><td title="Ontology term: {{record.tumor_grade_ontology|default("-",true)}}">{{ record.tumor_grade_ontology_label }}</td></td>{% endif %}
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </section>
                         <section>
                             <h2>Sample Origins</h2>
                             <div class="extra-info-table-wrapper">
@@ -58,27 +73,6 @@
                             </div>
                         </section>
                         <section>
-                            <h2>Sample Origins Ontology</h2>
-                            <div class="extra-info-table-wrapper">
-                                <table>
-                                    <thead>
-                                        <tr>
-                                            <th>sampleOriginType</th>
-                                            <th>sampleOriginDetail</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {% for sample in record.sample_origins_ontology.parsed %}
-                                        <tr>
-                                            <td>{{ sample.sampleOriginType|default("-",true) }}</td>
-                                            <td>{{ sample.sampleOriginDetail|default("-",true) }}</td>
-                                        </tr>
-                                        {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </section>
-                        <section>
                             <h2>Handovers</h2>
                             <div class="extra-info-table-wrapper">
                                 <table>
@@ -86,7 +80,6 @@
                                         <tr>
                                             <th></th>
                                             <th>note</th>
-                                            <th>handoverType</th>
                                             <th>url</th>
                                         </tr>
                                     </thead>
@@ -97,7 +90,6 @@
                                                 <a href="{{handover.url}}" target="_blank"><i class="fas fa-external-link-alt"></i></a>
                                             </td>
                                             <td>{{ handover.note }}</td>
-                                            <td>{{handover.handoverType.id}}:{{handover.handoverType.label}}</td>
                                             <td class="handover-cell"><a href="{{handover.url}}" target="_blank">{{ handover.url }}</a></td>
                                         </tr>
                                         {% endfor %}

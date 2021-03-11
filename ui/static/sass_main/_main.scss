@@ -60,27 +60,35 @@ body {
 
 
         #header-login {
-            border: 1px solid $blue-dark;
-            background-color: $blue-light;
-            border-radius: 10px;
-            height: 30px;
-            width: 75px;
-            position: relative;
-            margin-right: 20px;
-
-            &:hover {background-color: $blue-medium;}
-
-            a {
-                position: absolute;
-                top: 50%; left: 50%;
-                transform: translate(-50%, -50%);
-                text-decoration: none;
-                color: $black;
-                padding: 1em 0;
-                width: 100%;
-                text-align: center;
+            display: flex;
+            flex-flow: row nowrap;
+            align-items: center;
+            p {
+                padding: 0.5em;
+                margin-top: 3px;
             }
-
+            #login-button {
+                border: 1px solid $blue-dark;
+                background-color: $blue-light;
+                border-radius: 10px;
+                height: 30px;
+                width: 75px;
+                position: relative;
+                margin-right: 20px;
+    
+                &:hover {background-color: $blue-medium;}
+    
+                a {
+                    position: absolute;
+                    top: 50%; left: 50%;
+                    transform: translate(-50%, -50%);
+                    text-decoration: none;
+                    color: $black;
+                    padding: 1em 0;
+                    width: 100%;
+                    text-align: center;
+                }
+            }
         }
     }
 
@@ -438,6 +446,37 @@ body {
                         cursor: pointer;
                         color: $grey-dark;
                         &:hover { color: $blue-dark; }
+                    }
+
+                    #phenopackets {
+                        background-color: white;
+                        td {
+                            padding: 5px 15px;
+                            div {
+                                display: flex;
+                                flex-flow: row nowrap;
+                                align-items: center;
+                                width: 100%;
+                                img { 
+                                    width: 20px;
+                                    height: 20px;
+                                    margin-right: 10px;
+                                }
+                                a, span { 
+                                    color: lighten($black, 30%);
+                                    display: block;
+                                    margin-right: 10px;
+                                    font-size: 90%;
+                                    font-weight: 300;
+                                    text-decoration: none;
+                                    cursor: pointer;
+                                    &:hover {
+                                        color: $black;
+                                        text-decoration: underline;
+                                    }
+                                }
+                            }
+                        }
                     }
                 }
             }

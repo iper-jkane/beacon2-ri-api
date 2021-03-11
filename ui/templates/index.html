@@ -41,10 +41,15 @@
       </div>
       <div id="header-login">
         {% if session.user %}
-          <a href="{{ url('logout') }}?next={{ request.path }}" class="login-button">Logout</a>
-        {% else %} 
-          <a href="{{ url('login') }}?next={{ request.path }}" class="login-button">Login</a>
-        {% endif %}
+        <p>Hi, {{session.user.given_name}}</p>
+        <div id="login-button">
+            <a href="{{ url('logout') }}?next={{ request.path }}" class="login-button">Logout</a>
+          {% else %} 
+          <div id="login-button">
+            <a href="{{ url('login') }}?next={{ request.path }}" class="login-button">Login</a>
+          {% endif %}
+        </div>
+  
       </div>
     </header>
     <main>

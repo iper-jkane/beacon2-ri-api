@@ -414,6 +414,33 @@ async def handler_post(request):
     LOG.debug("Response:")
     LOG.debug(response)
 
+    # Phenopackets in BIOSAMPLES (cineca demo)
+    url = None
+    files_phenopackets = ""
+    if qparams_raw.get('resultOption','') == "sample":
+        # build api link
+        targetInstance = qparams_db.targetInstance
+        targetId = qparams_raw.get('targetId','')
+        if targetInstance == "variant":
+            url = "/api/g_variants/" + targetId + "/biosamples"
+        elif targetInstance == "sample":
+            if targetId:
+                url = "/api/biosamples/" + targetId
+            else:
+                url = "/api/biosamples"
+        elif targetInstance == "individual":
+            url = "/api/individuals/" + targetId + "/biosamples"
+        url = url + "?requestedSchema=ga4gh-phenopacket-biosample-v1.0"
+        if qparams_db.filters:
+            url = url + "&filters=" + ",".join(parameters["filters"])
+        # prepare list of files
+        parameters_phenopackets = parameters
+        parameters_phenopackets["requestedSchema"] = ['ga4gh-phenopacket-biosample-v1.0']
+        qparams_phenopackets = collections.namedtuple('qparams_custom_phenopackets', parameters_phenopackets.keys())(*parameters_phenopackets.values())
+        response_phenopackets = _fetch_results(qparams_db.resultOption, qparams_db.targetInstance, qparams, final_datasets, None)
+        files_phenopackets = json.dumps([row["files"].parsed[0]["uri"] async for row in response_phenopackets])
+
+
     if not response:
         LOG.debug("No Response")
         return {
@@ -431,7 +458,9 @@ async def handler_post(request):
             'allDatasets': datasets_all,
             'variantPosOption': qparams_raw.get('variantPosOption','variant-pos-exact'),
             'variantOption': qparams_raw.get('variantOption','basic'),
-            'qparams': qparams
+            'qparams': qparams,
+            'url': url,
+            'hts_files': files_phenopackets
         }
 
     records = [row async for row in response]
@@ -451,7 +480,9 @@ async def handler_post(request):
         'allDatasets': datasets_all,
         'variantPosOption': qparams_raw.get('variantPosOption','variant-pos-exact'),
         'variantOption': qparams_raw.get('variantOption','basic'),
-        'qparams': qparams
+        'qparams': qparams,
+        'api_link': url,
+        'hts_files': files_phenopackets
     }
 
 

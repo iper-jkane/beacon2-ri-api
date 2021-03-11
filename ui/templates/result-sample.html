@@ -1,6 +1,18 @@
 <div id="table-wrapper">
     <table id="main-result">
         <thead>
+            {% if api_link %}
+            <tr id="phenopackets">
+                <td colspan="11">
+                    <div>
+                        <img src="http://phenopackets.org/site/PhenoPackets_Logo.png" alt="Phenopackets">
+                        <a href="{{ api_link }}" target="_blank">View response</a>
+                        <a href="{{ api_link }}" download="phenopackets_response.json">Download response</a>
+                        <a href="data:text/json,{{ hts_files }}" download="hts_files.json">List of files</a>
+                    </div>
+                </td>
+            </tr>
+            {% endif %}
             <tr>
                 <th class="extra-info-trigger"></th>
                 <th>Biosample ID</th>

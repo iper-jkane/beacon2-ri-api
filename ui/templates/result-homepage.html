@@ -15,12 +15,12 @@
                 <tbody>
                     {% for record in records%}
                     <tr>
-                        <td>{{ record.datasetId|default("-",true) }}</td>
+                        <td>{{ record.stable_id|default("-",true) }}</td>
                         <td>{{ record.name|default("-",true) }}</td>
                         <td>{{ record.description|default("-",true) }}</td>
-                        <td>{{ record.datasetSource|default("-",true) }}</td>
-                        <td>{{ record.accessType|default("-",true) }}</td>
-                        <td>{{ record.assemblyId|default("-",true) }}</td>
+                        <td>{{ record.dataset_source|default("-",true) }}</td>
+                        <td>{{ record.access_type|default("-",true) }}</td>
+                        <td>{{ record.reference_genome|default("-",true) }}</td>
                     </tr>
                     {% endfor %}
                 </tbody>

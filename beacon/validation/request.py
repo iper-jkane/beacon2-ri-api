@@ -106,11 +106,9 @@ class RequestParameters(metaclass=DeclarativeFieldsMetaclass):
             return req.rel_url.query
         elif req.method == 'POST':
             if req.headers.get('Content-Type') == 'application/json':
-                # post_data = await req.json()
-                # return dict(flatten_dict(post_data))
-                return req.json()
+                return await req.json()
             else:
-                return dict(await req.post())
+                return await req.post()
         else:
             return {}
 
@@ -129,6 +127,10 @@ class RequestParameters(metaclass=DeclarativeFieldsMetaclass):
         # Loop in order through the parameters
         for key in self.__keys__:
             field = self.__fields__[key]
+            print("hey")
+            print(key, field)
+            print(qparams)
+            print(type(qparams))
             _get = qparams.getall if isinstance(field, MultipleField) else qparams.get
             _default = [] if isinstance(field, MultipleField) else None
             name = getattr(self.__names__, key)

@@ -4,7 +4,6 @@
             <tr>
                 <th class="extra-info-trigger"></th>
                 <th>Subject ID</th>
-                <th>Datasets IDs</th>
                 <th>Taxon</th>
                 <th>Sex</th>
                 <th>Date Of Birth</th>
@@ -24,7 +23,6 @@
                 <tr>
                     <td class="extra-info-trigger" title="Click to open a side panel with extra information."><i class="far fa-plus-square"></i></td>
                     <td>{{ record.individual_stable_id|default("-",true) }}</td>
-                    <td>{{ record.dataset_ids|default("-",true)|join(", ") }}</td>
                     <td title="Ontology term: {{record.taxon_id_ontology|default("-",true)}}">{{ record.taxon_id_ontology_label|default("-",true) }}</td>
                     <td title="Ontology term: {{record.sex_ontology|default("-",true)}}">{{ record.sex|default("-",true) }}</td>
                     <td>{{ record.date_of_birth|default("-",true) }}</td>

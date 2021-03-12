@@ -127,10 +127,6 @@ class RequestParameters(metaclass=DeclarativeFieldsMetaclass):
         # Loop in order through the parameters
         for key in self.__keys__:
             field = self.__fields__[key]
-            print("hey")
-            print(key, field)
-            print(qparams)
-            print(type(qparams))
             _get = qparams.getall if isinstance(field, MultipleField) else qparams.get
             _default = [] if isinstance(field, MultipleField) else None
             name = getattr(self.__names__, key)

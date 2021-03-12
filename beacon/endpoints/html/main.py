@@ -416,6 +416,7 @@ async def handler_post(request):
 
     # Phenopackets in BIOSAMPLES (cineca demo)
     url = None
+    url_parameters = {}
     files_phenopackets = ""
     if qparams_raw.get('resultOption','') == "sample":
         # build api link
@@ -430,9 +431,8 @@ async def handler_post(request):
                 url = "/api/biosamples"
         elif targetInstance == "individual":
             url = "/api/individuals/" + targetId + "/biosamples"
-        url = url + "?requestedSchema=ga4gh-phenopacket-biosample-v1.0"
         if qparams_db.filters:
-            url = url + "&filters=" + ",".join(parameters["filters"])
+            url_parameters["filters"] = qparams_db.filters
         # prepare list of files
         parameters_phenopackets = parameters
         parameters_phenopackets["requestedSchema"] = ['ga4gh-phenopacket-biosample-v1.0']
@@ -459,7 +459,8 @@ async def handler_post(request):
             'variantPosOption': qparams_raw.get('variantPosOption','variant-pos-exact'),
             'variantOption': qparams_raw.get('variantOption','basic'),
             'qparams': qparams,
-            'url': url,
+            'url_base': url,
+            'url_parameters': url_parameters,
             'hts_files': files_phenopackets
         }
 
@@ -481,7 +482,8 @@ async def handler_post(request):
         'variantPosOption': qparams_raw.get('variantPosOption','variant-pos-exact'),
         'variantOption': qparams_raw.get('variantOption','basic'),
         'qparams': qparams,
-        'api_link': url,
+        'url_base': url,
+        'url_parameters': url_parameters,
         'hts_files': files_phenopackets
     }
 

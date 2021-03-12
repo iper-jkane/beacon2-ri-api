@@ -1,15 +1,21 @@
 <div id="table-wrapper">
     <table id="main-result">
         <thead>
-            {% if api_link %}
+            {% if url_base %}
             <tr id="phenopackets">
                 <td colspan="11">
                     <div>
                         <img src="http://phenopackets.org/site/PhenoPackets_Logo.png" alt="Phenopackets">
-                        <a href="{{ api_link }}" target="_blank">View response</a>
-                        <a href="{{ api_link }}" download="phenopackets_response.json">Download response</a>
+                        <form action="{{ url_base }}" method="post" target="_blank">
+                            <input type="hidden" name="requestedSchema" value="ga4gh-phenopacket-biosample-v1.0">
+                            {% for param, value in url_parameters.items() %}
+                                <input type="hidden" name="{{param}}" value="{{value}}">
+                            {% endfor %}
+                            <input type="submit" value="Response">
+                        </form>
                         <a href="data:text/json,{{ hts_files }}" download="hts_files.json">List of files</a>
                     </div>
+
                 </td>
             </tr>
             {% endif %}

@@ -432,7 +432,7 @@ async def handler_post(request):
         elif targetInstance == "individual":
             url = "/api/individuals/" + targetId + "/biosamples"
         if qparams_db.filters:
-            url_parameters["filters"] = qparams_db.filters
+            url_parameters["filters"] = ",".join(parameters["filters"])
         # prepare list of files
         parameters_phenopackets = parameters
         parameters_phenopackets["requestedSchema"] = ['ga4gh-phenopacket-biosample-v1.0']

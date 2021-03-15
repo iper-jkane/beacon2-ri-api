@@ -13,7 +13,7 @@
                             {% endfor %}
                             <input type="submit" value="Response">
                         </form>
-                        <a href="data:text/json,{{ hts_files }}" download="hts_files.json">List of files</a>
+                        <a href="data:text/plain;base64,{{ hts_files }}" download="hts_files.txt">List of files</a>
                     </div>
 
                 </td>

@@ -419,6 +419,7 @@ async def handler_post(request):
     url = None
     url_parameters = {}
     files_phenopackets = ""
+    files_phenopackets_encoded = ""
     if qparams_raw.get('resultOption','') == "sample":
         # build api link
         targetInstance = qparams_db.targetInstance

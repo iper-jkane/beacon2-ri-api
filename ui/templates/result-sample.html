@@ -13,7 +13,9 @@
                             {% endfor %}
                             <input type="submit" value="Response">
                         </form>
+                        {% if hts_files %}
                         <a href="data:text/plain;base64,{{ hts_files }}" download="hts_files.txt">List of files</a>
+                        {% endif %}
                     </div>
 
                 </td>

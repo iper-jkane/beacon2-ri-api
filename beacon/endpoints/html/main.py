@@ -440,9 +440,10 @@ async def handler_post(request):
         parameters_phenopackets["requestedSchema"] = ['ga4gh-phenopacket-biosample-v1.0']
         qparams_phenopackets = collections.namedtuple('qparams_custom_phenopackets', parameters_phenopackets.keys())(*parameters_phenopackets.values())
         response_phenopackets = _fetch_results(qparams_db.resultOption, qparams_db.targetInstance, qparams, final_datasets, None)
-        # files_phenopackets = json.dumps([row["files"].parsed[0]["uri"] async for row in response_phenopackets])
-        files_phenopackets = "\n".join([row["files"].parsed[0]["uri"] async for row in response_phenopackets])
-        files_phenopackets_encoded = base64.b64encode(files_phenopackets.encode('ascii')).decode('ascii')
+        records_phenopackets = [row async for row in response_phenopackets]
+        files_phenopackets = "\n".join([record["files"].parsed[0]["uri"] for record in records_phenopackets if record["files"].parsed])
+        if files_phenopackets:
+            files_phenopackets_encoded = base64.b64encode(files_phenopackets.encode('ascii')).decode('ascii')
 
 
     if not response:

@@ -374,7 +374,7 @@ async def handler_post(request):
         "assemblyId": assembly_id,
         "filters": set([x.split(" ")[0] for x in qparams_db.filters if x != None]) if qparams_db.filters else None,
         "skip": 0,
-        "limit": 10,
+        "limit": 20,
         "requestedSchema": [None], # list
         "requestedAnnotationSchema": [None], # list
         "targetIdReq": qparams_db.targetId,

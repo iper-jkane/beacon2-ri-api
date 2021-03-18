@@ -12,7 +12,7 @@
                 <th>Alternate</th> -->
                 <th>Variant Type</th>
                 <th>Molecular Effects</th>
-                <th>Aminoacid Changes</th>
+                <!-- <th>Aminoacid Changes</th> -->
                 <th>Genomic Regions</th>
                 <th>Assembly ID</th>
                 <th>RefSeq ID</th>
@@ -33,7 +33,7 @@
                     <td>{{ record.alternate|default("-",true) }}</td> -->
                     <td>{{ record.variant_type|default("-",true) }}</td>
                     <td>{{ record.molecular_effects[0]|default("-",true) }}</td>
-                    <td>{{ record.aminoacid_changes|default("-",true)|join(", ") }}</td>
+                    <!-- <td>{{ record.aminoacid_changes|default("-",true)|join(", ") }}</td> -->
                     <td>{{ record.genomic_regions[0]|default("-",true) }}</td>
                     <td>{{ record.assembly_id|default("-",true) }}</td>
                     <td>{{ record.refseq_id|default("-",true) }}</td>
@@ -74,7 +74,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            {% if record.genomic_hgvs_id %}<td>{{ record.genomic_hgvs_id[0] }}</td>{% endif %}
+                                            {% if record.genomic_hgvs_id %}<td>{{ record.genomic_hgvs_id }}</td>{% endif %}
                                             {% if record.transcript_hgvs_ids %}<td>{{ record.transcript_hgvs_ids}}</td>{% endif %}
                                             {% if record.protein_hgvs_ids %}<td>{{ record.protein_hgvs_ids}}</td>{% endif %}
                                         </tr>

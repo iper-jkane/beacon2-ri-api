@@ -38,6 +38,7 @@
                     <td class="hidden">
                         <h1><i class="fas fa-times close-button"></i>Individual {{ record.individual_stable_id|default("-",true) }}</h1>
                         <section>
+                            
                             <h2>Phenotypic Features</h2>
                             <div class="extra-info-table-wrapper">
                                 <table>
@@ -135,12 +136,12 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        {% for procedure in record.procedures.parsed %}
+                                        {% for intervention in record.interventions.parsed[0] %}
                                         <tr>
-                                            <td>{{ procedure.intervention_id|default("-",true) }}</td>    
-                                            <td>{{ procedure.modifier|default("-",true) }}</td>    
-                                            <td>{{ procedure.date|default("-",true) }}</td>    
-                                            <td>{{ procedure.age_at_intervention|default("-",true) }}</td>    
+                                            <td>{{ intervention.intervention_id|default("-",true) }}</td>    
+                                            <td>{{ intervention.modifier|default("-",true) }}</td>    
+                                            <td>{{ intervention.intervention_date|default("-",true) }}</td>    
+                                            <td>{{ intervention.age_at_intervention|default("-",true) }}</td>    
                                         </tr>
                                         {% endfor %}
                                     </tbody>
@@ -155,23 +156,19 @@
                                         <tr>
                                             <th>measureId</th>
                                             <th>modifier</th>
-                                            <th>date</th>
                                             <th>ageAtMeasure</th>
+                                            <th>measureQuantity</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!--  for procedure in record.measures.parsed  -->
+                                        {% for measure in record.measures.parsed[0] %}
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <!-- <td> procedure.measure_id|default("-",true) </td>    
-                                            <td> procedure.modifier|default("-",true) </td>    
-                                            <td> procedure.date|default("-",true) </td>    
-                                            <td> procedure.age_at_measure|default("-",true) </td>     -->
+                                            <td>{{ measure.measure_id|default("-",true) }}</td>    
+                                            <td>{{ measure.modifier|default("-",true) }}</td>    
+                                            <td>{{ measure.age_at_measure|default("-",true) }}</td>    
+                                            <td>{{ measure.measure_quantity.measure_value|default("-",true) }} {{ measure.measure_quantity.measure_unit|default("",true) }}</td>    
                                         </tr>
-                                        <!--  endfor  -->
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -186,21 +183,21 @@
                                             <th>modifier</th>
                                             <th>date</th>
                                             <th>ageAtExposure</th>
+                                            <th>dose</th>
+                                            <th>duration</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!--  for procedure in record.exposures.parsed  -->
+                                        {% for exposure in record.exposures.parsed[0] %}
                                         <tr>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <!-- <td> procedure.exposure_id|default("-",true) </td>    
-                                            <td> procedure.modifier|default("-",true) </td>    
-                                            <td> procedure.date|default("-",true) </td>    
-                                            <td> procedure.age_at_exposure|default("-",true) </td>     -->
+                                            <td>{{ exposure.exposure_id|default("-",true) }}</td>    
+                                            <td>{{ exposure.modifier|default("-",true) }}</td>    
+                                            <td>{{ exposure.exposure_date|default("-",true) }}</td>    
+                                            <td>{{ exposure.age_at_exposure|default("-",true) }}</td>    
+                                            <td>{{ exposure.exposure_dose.exposure_value|default("-",true) }} {{ exposure.exposure_dose.exposure_unit|default("",true) }}</td>    
+                                            <td>{{ exposure.age_at_measure|default("-",true) }}</td>    
                                         </tr>
-                                        <!--  endfor  -->
+                                        {% endfor %}
                                     </tbody>
                                 </table>
                             </div>
@@ -257,7 +254,6 @@
                                 </table>
                             </div>
                         </section>
- 
                     </td>
                 </tr>
             {% endfor %}

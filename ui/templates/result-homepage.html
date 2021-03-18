@@ -6,7 +6,6 @@
                     <tr>
                         <th>datasetId</th>
                         <th>name</th>
-                        <th>description</th>
                         <th>datasetSource</th>
                         <th>accessType</th>
                         <th>assemblyId</th>
@@ -17,7 +16,6 @@
                     <tr>
                         <td>{{ record.stable_id|default("-",true) }}</td>
                         <td>{{ record.name|default("-",true) }}</td>
-                        <td>{{ record.description|default("-",true) }}</td>
                         <td>{{ record.dataset_source|default("-",true) }}</td>
                         <td>{{ record.access_type|default("-",true) }}</td>
                         <td>{{ record.reference_genome|default("-",true) }}</td>

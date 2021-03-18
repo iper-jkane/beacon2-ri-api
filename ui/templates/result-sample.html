@@ -42,8 +42,10 @@
                     <td>{{ record.biosample_stable_id|default("-",true) }}</td>
                     <td>{{ record.individual_stable_id|default("-",true) }}</td>
                     <td>{{ record.description|default("-",true) }}</td>
-                    <td title="Ontology term: {{record.biosample_status_ontology|default("-",true)}}">{{ record.biosample_status_ontology_label|default("-",true) }}</td>
-                    <td title="Ontology term: {{record.obtention_procedure_ontology|default("-",true)}}">{{ record.obtention_procedure_ontology_label|default("-",true) }}</td>
+                    <td>{{ record.biosample_status|default("-",true) }}</td>
+                    <td>{{ record.obtention_procedure|default("-",true) }}</td>
+                    <!-- <td title="Ontology term: {{record.biosample_status_ontology|default("-",true)}}">{{ record.biosample_status_ontology_label|default("-",true) }}</td>
+                    <td title="Ontology term: {{record.obtention_procedure_ontology|default("-",true)}}">{{ record.obtention_procedure_ontology_label|default("-",true) }}</td> -->
                     <td>{{ record.individual_age_at_collection|default("-",true) }}</td>
                     <td>{{ record.collection_date|default("-",true) }}</td>
                     <td>{{ record.alternative_ids|default("-",true)|join(", ") }}</td>
@@ -64,8 +66,10 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            {% if record.tumor_progression_ontology %}<td><td title="Ontology term: {{record.tumor_progression_ontology|default("-",true)}}">{{ record.tumor_progression_ontology_label }}</td></td>{% endif %}
-                                            {% if record.tumor_grade_ontology %}<td><td title="Ontology term: {{record.tumor_grade_ontology|default("-",true)}}">{{ record.tumor_grade_ontology_label }}</td></td>{% endif %}
+                                            {% if record.tumor_progression %}<td>{{ record.tumor_progression }}</td>{% endif %}
+                                            {% if record.tumor_grade %}<td>{{ record.tumor_grade }}</td>{% endif %}
+                                            <!-- {% if record.tumor_progression_ontology %}<td><td title="Ontology term: {{record.tumor_progression_ontology|default("-",true)}}">{{ record.tumor_progression_ontology_label }}</td></td>{% endif %}
+                                            {% if record.tumor_grade_ontology %}<td><td title="Ontology term: {{record.tumor_grade_ontology|default("-",true)}}">{{ record.tumor_grade_ontology_label }}</td></td>{% endif %} -->
                                         </tr>
                                     </tbody>
                                 </table>

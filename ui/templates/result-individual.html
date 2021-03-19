@@ -13,7 +13,7 @@
                 <th>Blood Type</th>
                 <th>SRA Family ID</th>
                 <th>Alternative IDs</th>
-                <th>Alternative IDs Phenopackets</th>
+                <th>Datasets</th>
             </tr>
         </thead>
         <tbody>
@@ -30,7 +30,7 @@
                     <td>{{ record.blood_type|default("-",true) }}</td>
                     <td>{{ record.sra_family_id|default("-",true) }}</td>
                     <td>{{ record.alternative_ids|default("-",true)|join(", ") }}</td>
-                    <td>{{ record.alternative_ids_phenopackets|default("-",true)|join(", ") }}</td>
+                    <td>{{ record.dataset_stable_ids|default("-",true)|join(", ") }}</td>
                     <td class="hidden">
                         <h1><i class="fas fa-times close-button"></i>Individual {{ record.individual_stable_id|default("-",true) }}</h1>
                         <section>

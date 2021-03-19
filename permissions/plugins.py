@@ -31,8 +31,8 @@ class DummyPermissions(Permissions):
     def __init__(self, *args, **kwargs):
         # Dummy permission database
         self.db = {
-            "john": ["GiaB", "dataset-registered", "dataset-controlled"],
-            "jane": ["GiaB", "dataset-registered"],
+            "john": ["UKBB", "GiaB", "dataset-registered", "dataset-controlled"],
+            "jane": ["UKBB", "GiaB", "dataset-registered"],
         }
 
     async def initialize(self):

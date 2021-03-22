@@ -5,7 +5,7 @@
             <tr id="phenopackets">
                 <td colspan="11">
                     <div>
-                        <img src="http://phenopackets.org/site/PhenoPackets_Logo.png" alt="Phenopackets">
+                        <img src="{{ static('img/PhenoPackets_Logo.png') }}" alt="Phenopackets">
                         <form action="{{ url_base }}" method="post" target="_blank">
                             <input type="hidden" name="requestedSchema" value="ga4gh-phenopacket-biosample-v1.0">
                             {% for param, value in url_parameters.items() %}

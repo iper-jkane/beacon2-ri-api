@@ -138,7 +138,7 @@ body {
             // specific styles
             section#target-selection {
                 display: grid;
-                grid-template-columns: 1fr 1fr 1fr 1fr;
+                grid-template-columns: 1fr 1fr 1fr;
                 grid-template-rows: 1fr 1fr;
                 height: 100px;
                 border-bottom: 1px solid $blue-dark;
@@ -163,11 +163,36 @@ body {
                         &.fa-male {font-size: 25px;}
                     }
 
+                    svg {
+                        position: absolute;
+                        top: 50%; left: 50%;
+                        transform: translate(-50%, -50%);
+                        path, ellipse, rect, line {
+                            fill: $blue-medium;
+                            stroke: $blue-medium;
+                        }
+                    }
+
                     &.active, &:hover {
                         background-color: $blue-light;
                         i { color: $blue-dark;}
+                        svg {
+                            path, ellipse, rect, line { fill: $blue-dark; stroke: $blue-dark;}
+                        }
+                        
                     }
-                    &.empty:hover { background-color: transparent; cursor: default;}
+                    &.empty:hover {background-color: transparent; cursor: default;}
+
+                    &.disabled {
+                        cursor: default;
+                        &.active, &:hover {
+                            background-color: transparent;
+                            i { color: $blue-medium;}
+                            svg {
+                                path, ellipse, rect, line { fill: $blue-medium; stroke: $blue-medium;}
+                            }  
+                        }
+                        }
                 }  
             }
 

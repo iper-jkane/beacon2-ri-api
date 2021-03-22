@@ -30,7 +30,7 @@ $("#result-option-all").attr("value", $(".target-icon.active").attr("data-target
 updateOptions($(".target-icon.active"));
 
 // set when user clicks
-$("#target-selection").on("click",".target-icon", function(){
+$("#target-selection").on("click",".target-icon.enabled", function(){
     var dataTarget = $(this).attr("data-target");
 
     // deselect all and select this

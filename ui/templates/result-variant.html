@@ -74,9 +74,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            {% if record.genomic_hgvs_id %}<td>{{ record.genomic_hgvs_id }}</td>{% endif %}
-                                            {% if record.transcript_hgvs_ids %}<td>{{ record.transcript_hgvs_ids}}</td>{% endif %}
-                                            {% if record.protein_hgvs_ids %}<td>{{ record.protein_hgvs_ids}}</td>{% endif %}
+                                            {% if record.genomic_hgvs_id %}<td>{{ record.genomic_hgvs_id[0] }}</td>{%else%}<td></td> {% endif %}
+                                            {% if record.transcript_hgvs_ids %}<td>{{ record.transcript_hgvs_ids[0]}}</td>{%else%}<td></td> {% endif %}
+                                            {% if record.protein_hgvs_ids %}<td>{{ record.protein_hgvs_ids[0]}}</td>{%else%}<td></td> {% endif %}
                                         </tr>
                                     </tbody>
                                 </table>

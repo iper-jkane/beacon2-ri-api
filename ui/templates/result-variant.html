@@ -75,9 +75,9 @@
                                     <tbody>
                                         <tr>
                                             {% if record.genomic_hgvs_id or record.transcript_hgvs_ids or record.protein_hgvs_ids %}
-                                            <td>{{ record.genomic_hgvs_id|default("-",true) }}</td>
-                                            <td>{{ record.transcript_hgvs_ids|default("-",true)}}</td>
-                                            <td>{{ record.protein_hgvs_ids|default("-",true)}}</td>
+                                            <td>{{ record.genomic_hgvs_id[0]|default("-",true) }}</td>
+                                            <td>{{ record.transcript_hgvs_ids[0]|default("-",true)}}</td>
+                                            <td>{{ record.protein_hgvs_ids[0]|default("-",true)}}</td>
                                             {% endif %}
                                         </tr>
                                     </tbody>

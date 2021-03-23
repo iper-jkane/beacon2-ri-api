@@ -66,8 +66,10 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            {% if record.tumor_progression %}<td>{{ record.tumor_progression }}</td>{% endif %}
-                                            {% if record.tumor_grade %}<td>{{ record.tumor_grade }}</td>{% endif %}
+                                            {% if record.tumor_progression or record.tumor_grade %}
+                                            <td>{{ record.tumor_progression|default("-",true) }}</td>
+                                            <td>{{ record.tumor_grade|default("-",true) }}</td>
+                                            {% endif %}
                                             <!-- {% if record.tumor_progression_ontology %}<td><td title="Ontology term: {{record.tumor_progression_ontology|default("-",true)}}">{{ record.tumor_progression_ontology_label }}</td></td>{% endif %}
                                             {% if record.tumor_grade_ontology %}<td><td title="Ontology term: {{record.tumor_grade_ontology|default("-",true)}}">{{ record.tumor_grade_ontology_label }}</td></td>{% endif %} -->
                                         </tr>

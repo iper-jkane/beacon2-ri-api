@@ -630,3 +630,55 @@ async def _count_cohorts(connection,
 
 def count_cohorts_by_cohort(qparams_db, datasets, authenticated):
     return _count_cohorts(qparams_db, datasets, authenticated, cohort_id=qparams_db.targetIdReq)
+
+# RUNS
+
+def fetch_runs_by_run(qparams_db, datasets, authenticated):
+    return _fetch_run(qparams_db, datasets, authenticated, run_id=qparams_db.targetIdReq)
+
+def count_runs_by_run(qparams_db, datasets, authenticated):
+    return _count_runs(qparams_db, datasets, authenticated, run_id=qparams_db.targetIdReq)
+
+@pool.asyncgen_execute
+async def _fetch_run(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            run_id=None):
+    LOG.info('Retrieving run information')
+    
+    # Build query
+    query = f"SELECT * FROM {conf.database_schema}.fetch_runs($1)"
+        
+    # Execute
+    statement = await connection.prepare(query)
+    response = await statement.fetch(run_id)  # requestedSchemas
+    for record in response:
+        yield record
+
+    LOG.debug("QUERY: %s", query)
+
+@pool.coroutine_execute
+async def _count_runs(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            run_id=None):
+    LOG.info('Counting runs fetched')
+    
+    # Build query
+    # TODO: Use function
+    if run_id is None:
+        query = f"SELECT COUNT(*) FROM {conf.database_schema}.run_table"
+        LOG.debug("QUERY: %s", query)
+
+        # Execute
+        statement = await connection.prepare(query)
+        return await statement.fetchval(column=0)
+    else:
+        query = f"SELECT COUNT(*) FROM {conf.database_schema}.run_table WHERE id = $1"
+        LOG.debug("QUERY: %s", query)
+
+        # Execute
+        statement = await connection.prepare(query)
+        return await statement.fetchval(run_id, column=0)

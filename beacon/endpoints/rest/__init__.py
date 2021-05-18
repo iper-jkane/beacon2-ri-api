@@ -138,6 +138,26 @@ class GVariantsParameters(GVariantParametersBase):
                                             'ga4gh-phenopacket-variant-annotation-v1.0',
                                   default='beacon-variant-annotation-v2.0.0-draft.3')
 
+class RunsParameters(GVariantParametersBase):
+    requestedSchema = SchemaField('beacon-run-v2.0.0-draft.4',
+                                  default='beacon-run-v2.0.0-draft.4')
+
+class AnalysesParameters(GVariantParametersBase):
+    requestedSchema = SchemaField('beacon-analysis-v2.0.0-draft.4',
+                                  default='beacon-analysis-v2.0.0-draft.4')
+
+class VariantsInSampleParameters(GVariantParametersBase):
+    requestedSchema = SchemaField('beacon-variant-in-sample-v2.0.0-draft.4',   
+                                  default='beacon-variant-in-sample-v2.0.0-draft.4')
+
+class VariantsInterpretationParameters(GVariantParametersBase):
+    requestedSchema = SchemaField('beacon-variant-interpretation-v2.0.0-draft.4',   
+                                  default='beacon-variant-interpretation-v2.0.0-draft.4')
+
+class InteractorsParameters(GVariantParametersBase):
+    requestedSchema = SchemaField('beacon-interactor-v2.0.0-draft.4',   
+                                  default='beacon-interactor-v2.0.0-draft.4')
+
 class CohortParameters(GVariantParametersBase):
     requestedSchema = SchemaField(
         'beacon-cohort-v2.0.0-draft.3.1',

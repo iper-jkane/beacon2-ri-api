@@ -11,6 +11,11 @@ class BeaconEntity(IntEnum):
     INDIVIDUAL = 2
     VARIANT = 3
     COHORT = 4
+    RUN = 5
+    ANALYSIS = 6
+    VARIANT_IN_SAMPLE = 7
+    VARIANT_INTERPRETATION = 8
+    INTERACTOR = 9
 
 
 def build_beacon_response(proxy,
@@ -216,4 +221,19 @@ def build_biosample_or_individual_response(data, qparams):
     return [qparams.requestedSchema[1](row) for row in data]
 
 def build_cohort_response(data, qparams):
+    return [qparams.requestedSchema[1](row) for row in data]
+
+def build_run_response(data, qparams):
+    return [qparams.requestedSchema[1](row) for row in data]
+
+def build_analysis_response(data, qparams):
+    return [qparams.requestedSchema[1](row) for row in data]
+
+def build_variant_in_sample_response(data, qparams):
+    return [qparams.requestedSchema[1](row) for row in data]
+
+def build_variant_interpretation_response(data, qparams):
+    return [qparams.requestedSchema[1](row) for row in data]
+
+def build_interactor_response(data, qparams):
     return [qparams.requestedSchema[1](row) for row in data]

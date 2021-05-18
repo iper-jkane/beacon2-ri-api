@@ -173,3 +173,76 @@ def beacon_cohort_v31(row):
         'cohortDataTypes': row['cohort_data_types'],
         'collectionEvents': snake_case_to_camelCase(row['collection_events']),
     }
+
+def beacon_run_v40(row):
+    return {
+        'runId': row['id'],
+        'biosampleId': row['sample_id'],
+        'runDate': row['run_date'],
+        'librarySource': row['library_source'],
+        'libraryStrategy': row['library_strategy'],
+        'librarySelection': row['library_selection'],
+        'libraryLayout': row['library_layout'],
+        'platform': row['platform'],
+        'platformModel': row['platform_model']
+    }
+
+def beacon_analysis_v40(row):
+    return {
+        'analysisId': row['id'],
+        'runId': row['run_id'],
+        'analysisDate': row['analysis_date'],
+        'pipelineName': row['pipeline_name'],
+        'pipelineRef': row['pipeline_ref'],
+        'aligner': row['aligner'],
+        'variantCaller': row['variant_caller']
+    }
+
+def beacon_variant_in_sample_v40(row):
+    return {
+        'variantId': row['id'],
+        'analysisId': row['analysis_id'],
+        'biosampleId': row['biosample_id'],
+        'variantFrequency': row['variant_frequency'],
+        'zigosity': row['zigosity'],
+        'alleleOrigin': row['allele_origin'],
+        'phenotypicEffects': row['phenotypic_effects'],
+        'clinicalRelevances': row['clinical_relevances']
+    }
+
+def beacon_variant_interpretation_v40(row):
+    return {
+        'variantId': row['variant_id'],
+        'datasetId': row['dataset_id'],
+        'phenotypicEffects': row['phenotypic_effects'],
+        'clinicalRelevances': row['clinical_relevances']
+    }
+
+def beacon_interactor_v40(row):
+    result = {
+        'individualId': row['stable_id'],
+        'taxonId': row['taxon_id'],
+        'sex': row['sex'],
+        'ethnicity': row['ethnicity'],
+        'geographicOrigin': row['geographic_origin'],
+        'phenotypicFeatures': None,
+        'diseases': None,
+        'pedigrees': None,
+        'handovers': None,
+        'treatments': None,
+        'interventions': None, 
+        'measures': None,
+        'exposures': None,
+        'info': {
+            'sraFamilyId': row['sra_family_id'],
+            'alternativeIds': row['alternative_ids'],
+            'race': row['race'],
+            'weightKg': row['weight_kg'],
+            'heightCm': row['height_cm'],
+            'bloodType': row['blood_type'],
+            'medications': row['medications'],
+            'procedures': row['procedures'],
+        },
+    }
+    result['relationType'] = row['relation_type']
+    return result

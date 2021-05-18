@@ -682,3 +682,50 @@ async def _count_runs(connection,
         # Execute
         statement = await connection.prepare(query)
         return await statement.fetchval(run_id, column=0)
+
+@pool.asyncgen_execute
+async def _fetch_analysis(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            analysis_id=None):
+    LOG.info('Retrieving analysis information')
+    
+    # Build query
+    query = f"SELECT * FROM {conf.database_schema}.fetch_analyses($1)"
+        
+    # Execute
+    statement = await connection.prepare(query)
+    response = await statement.fetch(analysis_id)  # requestedSchemas
+    for record in response:
+        yield record
+
+    LOG.debug("QUERY: %s", query)
+
+@pool.coroutine_execute
+async def _count_analyses(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            analysis_id=None):
+    LOG.info('Counting analyses fetched')
+    
+    # Build query
+    # TODO: Use function
+    if analysis_id is None:
+        query = f"SELECT COUNT(*) FROM {conf.database_schema}.analysis_table"
+        LOG.debug("QUERY: %s", query)
+
+        # Execute
+        statement = await connection.prepare(query)
+        return await statement.fetchval(column=0)
+    else:
+        query = f"SELECT COUNT(*) FROM {conf.database_schema}.analysis_table WHERE id = $1"
+        LOG.debug("QUERY: %s", query)
+
+        # Execute
+        statement = await connection.prepare(query)
+        return await statement.fetchval(analysis_id, column=0)
+
+@pool.asyncgen_execute
+@pool.asyncgen_execute

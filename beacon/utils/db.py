@@ -683,6 +683,14 @@ async def _count_runs(connection,
         statement = await connection.prepare(query)
         return await statement.fetchval(run_id, column=0)
 
+# ANALYSES
+
+def fetch_analyses_by_analysis(qparams_db, datasets, authenticated):
+    return _fetch_analysis(qparams_db, datasets, authenticated, analysis_id=qparams_db.targetIdReq)
+
+def count_analyses_by_analysis(qparams_db, datasets, authenticated):
+    return _count_analyses(qparams_db, datasets, authenticated, analysis_id=qparams_db.targetIdReq)
+
 @pool.asyncgen_execute
 async def _fetch_analysis(connection,
                             qparams_db,

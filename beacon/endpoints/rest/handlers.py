@@ -7,6 +7,7 @@ from .response.response_schema import (build_variant_response,
                                        build_variant_in_sample_response,
                                        build_variant_interpretation_response,
                                        build_interactor_response,
+                                       build_variant_annotation_response,
                                        BeaconEntity)
 from . import AnalysesParameters, BiosamplesParameters, GVariantsParameters, IndividualsParameters, CohortParameters, RunsParameters, VariantsInSampleParameters, VariantsInterpretationParameters, InteractorsParameters, generic_handler
 
@@ -31,6 +32,8 @@ biosamples_by_variant = generic_handler('biosamples' , BeaconEntity.VARIANT, bio
 gvariants_by_variant = generic_handler('gvariants'  , BeaconEntity.VARIANT, gvariants_proxy  , db.fetch_variants_by_variant   , db.count_variants_by_variant, build_variant_response)
 variants_in_sample_by_variant = generic_handler('variants in sample', BeaconEntity.VARIANT, variants_in_sample_proxy, db.fetch_variants_in_sample_by_variant, db.count_variants_in_sample_by_variant, build_variant_in_sample_response)
 variants_interpretations_by_variant = generic_handler('variants interpretation', BeaconEntity.VARIANT, variants_interpretation_proxy, db.fetch_variants_interpretation_by_variant, db.count_variants_interpretation_by_variant, build_variant_interpretation_response)
+
+variants_annotation_by_variant = generic_handler('gvariants'  , BeaconEntity.VARIANT, gvariants_proxy  , db.fetch_variants_by_variant   , db.count_variants_by_variant, build_variant_annotation_response)
 
 individuals_by_individual = generic_handler('individuals', BeaconEntity.INDIVIDUAL, individuals_proxy, db.fetch_individuals_by_individual, db.count_individuals_by_individual, build_biosample_or_individual_response)
 biosamples_by_individual = generic_handler('biosamples' , BeaconEntity.INDIVIDUAL, biosamples_proxy , db.fetch_biosamples_by_individual , db.count_biosamples_by_individual, build_biosample_or_individual_response)

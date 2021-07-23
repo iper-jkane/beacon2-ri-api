@@ -5,7 +5,7 @@ from ...validation.request import RequestParameters, print_qparams
 from ...validation.fields import RegexField, SchemaField
 from ...utils.db import fetch_datasets_metadata
 from ...utils.stream import json_stream
-from .response.info_response_schema import build_beacon_response, build_dataset_info_response
+from .response.info_response_schema import build_beacon_resultset_response, build_dataset_info_response
 
 
 LOG = logging.getLogger(__name__)
@@ -48,7 +48,8 @@ async def handler(request):
         LOG.debug('all datasets:  %s', all_datasets)
         LOG.info('resolved datasets:  %s', authorized_datasets)
 
-    response_converted = build_beacon_response(beacon_datasets,
+    response_converted = build_beacon_resultset_response(beacon_datasets,
+                                               len(beacon_datasets),
                                                qparams_db,
                                                build_dataset_info_response,
                                                authorized_datasets if authenticated else [])

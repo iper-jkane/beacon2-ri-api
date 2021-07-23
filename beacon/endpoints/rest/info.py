@@ -18,7 +18,7 @@ from ...validation.request import RequestParameters, print_qparams
 from ...validation.fields import ChoiceField, RegexField, SchemaField
 from ...utils.db import fetch_datasets_metadata
 from ...utils.stream import json_stream
-from .response.info_response_schema import build_beacon_response, build_service_info_response
+from .response.info_response_schema import build_service_info_response, build_beacon_info_response
 from .schemas import alternative
 
 
@@ -68,7 +68,7 @@ async def handler(request):
         LOG.debug('all datasets:  %s', all_datasets)
         LOG.info('resolved datasets:  %s', authorized_datasets)
 
-    response_converted = build_beacon_response(beacon_datasets,
+    response_converted = build_beacon_info_response(beacon_datasets,
                                                qparams_db,
                                                build_service_info_response,
                                                authorized_datasets if authenticated else [])

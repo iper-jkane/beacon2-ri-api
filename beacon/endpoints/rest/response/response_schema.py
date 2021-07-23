@@ -17,6 +17,17 @@ class BeaconEntity(IntEnum):
     VARIANT_INTERPRETATION = 8
     INTERACTOR = 9
 
+def build_response_summary(exists, num_total_results):
+    return {
+        'exists': exists,
+        'numTotalResults': num_total_results
+    }
+
+def build_extended_info():
+    return None
+
+def build_beacon_handovers():
+    return conf.beacon_handovers
 
 def build_beacon_response(proxy,
                           data,
@@ -31,7 +42,10 @@ def build_beacon_response(proxy,
 
     beacon_response = {
         'meta': build_meta(proxy, qparams_converted, by_entity_type),
-        'response': build_response(data, num_total_results, qparams_converted, non_accessible_datasets, func_response_type)
+        'responseSummary': build_response_summary(bool(data), num_total_results),
+        # TODO: 'extendedInfo': build_extended_info(),
+        'beaconHandovers': build_beacon_handovers(),
+        'resultSets': build_response(data, num_total_results, qparams_converted, non_accessible_datasets, func_response_type)
     }
     return beacon_response
 
@@ -46,9 +60,10 @@ def build_meta(proxy, qparams, by_entity_type):
     meta = {
         'beaconId': conf.beacon_id,
         'apiVersion': conf.api_version,
-        'receivedRequest': build_received_request(qparams, schemas, by_entity_type),
+        'receivedRequestSummary': build_received_request(qparams, schemas, by_entity_type),
         'returnedSchemas': schemas,
     }
+
     return meta
 
 
@@ -64,11 +79,11 @@ def build_received_request(qparams, schemas, by_entity_type):
     """"Fills the `receivedRequest` part with the request data"""
 
     request = {
-        'meta': {
-            'requestedSchemas' : schemas,
-            'apiVersion' : qparams.apiVersion,
-        },
-        'query': build_received_query(qparams, by_entity_type),
+        'apiVersion' : qparams.apiVersion,
+        'requestedSchemas' : schemas,
+        'filters': qparams.filters,
+        # TODO: 'includeResultsetResponses': 'HIT',
+        'pagination': build_pagination_params(qparams)
     }
 
     return request
@@ -184,15 +199,17 @@ def build_response(data, num_total_results, qparams, non_accessible_datasets, fu
     """"Fills the `response` part with the correct format in `results`"""
 
     # LOG.debug('Calling f= %s', func)
+    results = func(data, qparams)
 
     response = {
-            'exists': bool(data),
-            'numTotalResults': int(num_total_results),
-            'results': func(data, qparams),
-            'info': None,
-            'resultsHandover': None, # build_results_handover
-            'beaconHandover': conf.beacon_handovers,
-        }
+        'id': '',
+        'setType': '',
+        'exists': str(bool(data)).lower(),
+        'resultsCount': len(results),
+        'results': results,
+        'info': None,
+        'resultsHandover': None, # build_results_handover
+    }
 
     if non_accessible_datasets:
         response['error'] = build_error(non_accessible_datasets)
@@ -204,20 +221,19 @@ def build_variant_response(data, qparams):
     """"Fills the `results` part with the format for variant data"""
 
     variant_func = qparams.requestedSchema[1]
+
+    for row in data:
+        yield variant_func(row)
+
+def build_variant_annotation_response(data, qparams):
+    """"Fills the `results` part with the format for variant annotation data"""
+
     variant_annotation_func = qparams.requestedAnnotationSchema[1]
 
     for row in data:
-        yield {
-            'variant': variant_func(row),
-            'variantAnnotations': variant_annotation_func(row),
-            'handovers': None,  # build_variant_handover
-            'datasetAlleleResponses': row['dataset_response']
-        }
-
+        yield variant_annotation_func(row)
 
 def build_biosample_or_individual_response(data, qparams):
-    """"Fills the `results` part with the format for biosample or individual data"""
-
     return [qparams.requestedSchema[1](row) for row in data]
 
 def build_cohort_response(data, qparams):

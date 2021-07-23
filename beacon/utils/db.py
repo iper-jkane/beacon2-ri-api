@@ -667,21 +667,24 @@ async def _count_runs(connection,
     LOG.info('Counting runs fetched')
     
     # Build query
-    # TODO: Use function
-    if run_id is None:
-        query = f"SELECT COUNT(*) FROM {conf.database_schema}.run_table"
-        LOG.debug("QUERY: %s", query)
+    query = f"SELECT COUNT(*) FROM {conf.database_schema}.fetch_runs($1)"
+    LOG.debug("QUERY: %s", query)
 
-        # Execute
-        statement = await connection.prepare(query)
-        return await statement.fetchval(column=0)
-    else:
-        query = f"SELECT COUNT(*) FROM {conf.database_schema}.run_table WHERE id = $1"
-        LOG.debug("QUERY: %s", query)
+    # Execute
+    statement = await connection.prepare(query)
+    return await statement.fetchval(run_id, column=0)
 
-        # Execute
-        statement = await connection.prepare(query)
-        return await statement.fetchval(run_id, column=0)
+def fetch_runs_by_biosample(qparams_db, datasets, authenticated):
+    pass
+
+def count_runs_by_biosample(qparams_db, datasets, authenticated):
+    pass
+
+def fetch_runs_by_analysis(qparams_db, datasets, authenticated):
+    pass
+
+def count_runs_by_analysis(qparams_db, datasets, authenticated):
+    pass
 
 # ANALYSES
 
@@ -735,5 +738,220 @@ async def _count_analyses(connection,
         statement = await connection.prepare(query)
         return await statement.fetchval(analysis_id, column=0)
 
+def fetch_analyses_by_run(qparams_db, datasets, authenticated):
+    pass
+
+def count_analyses_by_run(qparams_db, datasets, authenticated):
+    pass
+
+# VARIANTS IN SAMPLE
+
 @pool.asyncgen_execute
+async def _fetch_variants_in_sample(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            id=None):
+    LOG.info('Retrieving variants in sample information')
+    
+    # Build query
+    query = f"SELECT * FROM {conf.database_schema}.fetch_variants_in_sample($1)"
+    LOG.debug("QUERY: %s", query)
+        
+    # Execute
+    statement = await connection.prepare(query)
+    response = await statement.fetch(id)  # requestedSchemas
+    for record in response:
+        yield record
+
+@pool.coroutine_execute
+async def _count_variants_in_sample(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            id=None):
+    LOG.info('Counting variants in sample fetched')
+    
+    # Build query
+    query = f"SELECT COUNT(*) FROM {conf.database_schema}.fetch_variants_in_sample($1)"
+    LOG.debug("QUERY: %s", query)
+
+    # Execute
+    statement = await connection.prepare(query)
+    return await statement.fetchval(id, column=0)
+
+def fetch_variants_in_sample_by_variants_in_sample(qparams_db, datasets, authenticated):
+    return _fetch_variants_in_sample(qparams_db, datasets, authenticated, id=qparams_db.targetIdReq)
+
+def count_variants_in_sample_by_variants_in_sample(qparams_db, datasets, authenticated):
+    return _count_variants_in_sample(qparams_db, datasets, authenticated, id=qparams_db.targetIdReq)
+
+def fetch_variants_in_sample_by_analysis(qparams_db, datasets, authenticated):
+    pass
+
+def count_variants_in_sample_by_analysis(qparams_db, datasets, authenticated):
+    pass
+
+def fetch_variants_in_sample_by_biosample(qparams_db, datasets, authenticated):
+    pass
+
+def count_variants_in_sample_by_biosample(qparams_db, datasets, authenticated):
+    pass
+
+def fetch_variants_in_sample_by_variant(qparams_db, datasets, authenticated):
+    pass
+
+def count_variants_in_sample_by_variant(qparams_db, datasets, authenticated):
+    pass
+
+# VARIANTS INTERPRETATION
+
 @pool.asyncgen_execute
+async def _fetch_variants_interpretation(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            id=None):
+    LOG.info('Retrieving variants interpretation information')
+    
+    # Build query
+    if id is None:
+        query = f"SELECT * FROM {conf.database_schema}.variants_interpretation_table"
+    else:
+        query = f"SELECT * FROM {conf.database_schema}.variants_interpretation_table WHERE variant_id = $1"
+
+    LOG.debug("QUERY: %s", query)
+        
+    # Execute
+    statement = await connection.prepare(query)
+    response = await statement.fetch()  # requestedSchemas
+    for record in response:
+        yield record
+
+@pool.coroutine_execute
+async def _count_variants_interpretation(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            id=None):
+    LOG.info('Counting variants in sample fetched')
+    
+    # Build query
+    # TODO: Use function
+    if id is None:
+        query = f"SELECT COUNT(*) FROM {conf.database_schema}.variants_interpretation_table"
+        LOG.debug("QUERY: %s", query)
+
+        # Execute
+        statement = await connection.prepare(query)
+        return await statement.fetchval(column=0)
+    else:
+        query = f"SELECT COUNT(*) FROM {conf.database_schema}.variants_interpretation_table WHERE variant_id = $1"
+        LOG.debug("QUERY: %s", query)
+
+        # Execute
+        statement = await connection.prepare(query)
+        return await statement.fetchval(id, column=0)
+
+def fetch_variants_interpretations_by_variants_interpretation(qparams_db, datasets, authenticated):
+    return _fetch_variants_interpretation(qparams_db, datasets, authenticated, id=qparams_db.targetIdReq)
+
+def count_variants_interpretations_by_variants_interpretation(qparams_db, datasets, authenticated):
+    return _count_variants_interpretation(qparams_db, datasets, authenticated, id=qparams_db.targetIdReq)
+
+def fetch_variants_interpretation_by_variant(qparams_db, datasets, authenticated):
+    pass
+
+def count_variants_interpretation_by_variant(qparams_db, datasets, authenticated):
+    pass
+
+# COHORTS
+
+def fetch_cohorts_by_individual(qparams_db, datasets, authenticated):
+    pass
+
+def count_cohorts_by_individual(qparams_db, datasets, authenticated):
+    pass
+
+# INTERACTORS
+
+@pool.asyncgen_execute
+async def _fetch_interactors(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            id=None):
+    LOG.info('Retrieving variants interpretation information')
+    
+    # Build query
+    if id is None:
+        query = f"SELECT * FROM {conf.database_schema}.interactors_table"
+    else:
+        query = f"SELECT * FROM {conf.database_schema}.interactors_table WHERE id = $1"
+
+    LOG.debug("QUERY: %s", query)
+        
+    # Execute
+    statement = await connection.prepare(query)
+    response = await statement.fetch()  # requestedSchemas
+    for record in response:
+        yield record
+
+@pool.coroutine_execute
+async def _count_interactors(connection,
+                            qparams_db,
+                            datasets,
+                            authenticated,
+                            id=None):
+    LOG.info('Counting variants in sample fetched')
+    
+    # Build query
+    # TODO: Use function
+    if id is None:
+        query = f"SELECT COUNT(*) FROM {conf.database_schema}.interactors_table"
+        LOG.debug("QUERY: %s", query)
+
+        # Execute
+        statement = await connection.prepare(query)
+        return await statement.fetchval(column=0)
+    else:
+        query = f"SELECT COUNT(*) FROM {conf.database_schema}.interactors_table WHERE id = $1"
+        LOG.debug("QUERY: %s", query)
+
+        # Execute
+        statement = await connection.prepare(query)
+        return await statement.fetchval(id, column=0)
+
+def fetch_interactors_by_interactor(qparams_db, datasets, authenticated):
+    return _fetch_interactors(qparams_db, datasets, authenticated, id=qparams_db.targetIdReq)
+
+def count_interactors_by_interactor(qparams_db, datasets, authenticated):
+    return _count_interactors(qparams_db, datasets, authenticated, id=qparams_db.targetIdReq)
+
+def fetch_interactors_by_individual(qparams_db, datasets, authenticated):
+    pass
+
+def count_interactors_by_individual(qparams_db, datasets, authenticated):
+    pass
+
+# BIOSAMPLES
+
+def fetch_biosamples_by_run(qparams_db, datasets, authenticated):
+    pass
+
+def count_biosamples_by_run(qparams_db, datasets, authenticated):
+    pass
+
+# INDIVIDUALS
+
+def fetch_individuals_by_interactor(qparams_db, datasets, authenticated):
+    pass
+
+def count_individuals_by_interactor(qparams_db, datasets, authenticated):
+    pass
+
+def fetch_individuals_by_cohort(qparams_db, datasets, authenticated):
+    pass
+
+def count_individuals_by_cohort(qparams_db, datasets, authenticated):
+    pass

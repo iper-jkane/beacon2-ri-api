@@ -2,10 +2,10 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 12.6
--- Dumped by pg_dump version 13.3 (Ubuntu 13.3-1.pgdg20.04+1)
+-- Dumped from database version 12.7
+-- Dumped by pg_dump version 13.3
 
--- Started on 2021-05-18 17:55:37 CEST
+-- Started on 2021-07-23 04:53:02 CEST
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -27,7 +27,23 @@ CREATE SCHEMA tmp;
 
 
 --
--- TOC entry 627 (class 1247 OID 16388)
+-- TOC entry 949 (class 1247 OID 17691)
+-- Name: fetch_analyses_result_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.fetch_analyses_result_type AS (
+	analysis_id text,
+	run_id text,
+	analysis_date date,
+	pipeline_name text,
+	pipeline_ref text,
+	aligner text,
+	variant_caller text
+);
+
+
+--
+-- TOC entry 634 (class 1247 OID 16388)
 -- Name: fetch_individuals_result_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -65,7 +81,25 @@ CREATE TYPE public.fetch_individuals_result_type AS (
 
 
 --
--- TOC entry 630 (class 1247 OID 16391)
+-- TOC entry 938 (class 1247 OID 17656)
+-- Name: fetch_runs_result_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.fetch_runs_result_type AS (
+	run_id integer,
+	biosample_id text,
+	run_date date,
+	library_source text,
+	library_selection text,
+	library_strategy text,
+	library_layout text,
+	platform text,
+	platform_model text
+);
+
+
+--
+-- TOC entry 637 (class 1247 OID 16391)
 -- Name: fetch_samples_result_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -99,7 +133,24 @@ CREATE TYPE public.fetch_samples_result_type AS (
 
 
 --
--- TOC entry 718 (class 1247 OID 16394)
+-- TOC entry 942 (class 1247 OID 17674)
+-- Name: fetch_variant_in_sample_result_type; Type: TYPE; Schema: public; Owner: -
+--
+
+CREATE TYPE public.fetch_variant_in_sample_result_type AS (
+	id text,
+	analysis_id text,
+	biosample_id text,
+	variant_frequency double precision,
+	zigosity text,
+	allele_origin text,
+	phenotypic_effects jsonb,
+	clinical_relevances jsonb
+);
+
+
+--
+-- TOC entry 725 (class 1247 OID 16394)
 -- Name: fetch_variants_result_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -141,7 +192,7 @@ CREATE TYPE public.fetch_variants_result_type AS (
 
 
 --
--- TOC entry 721 (class 1247 OID 16397)
+-- TOC entry 728 (class 1247 OID 16397)
 -- Name: query_individuals_result_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -178,7 +229,7 @@ CREATE TYPE public.query_individuals_result_type AS (
 
 
 --
--- TOC entry 724 (class 1247 OID 16400)
+-- TOC entry 731 (class 1247 OID 16400)
 -- Name: query_samples_result_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -213,7 +264,7 @@ CREATE TYPE public.query_samples_result_type AS (
 
 
 --
--- TOC entry 727 (class 1247 OID 16403)
+-- TOC entry 734 (class 1247 OID 16403)
 -- Name: query_variants_result_type; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -254,7 +305,7 @@ CREATE TYPE public.query_variants_result_type AS (
 
 
 --
--- TOC entry 278 (class 1255 OID 16404)
+-- TOC entry 283 (class 1255 OID 16404)
 -- Name: add_where_clause_conditions(text, integer, integer, text, text, text[], boolean, text, text, integer, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -385,7 +436,7 @@ $_$;
 
 
 --
--- TOC entry 279 (class 1255 OID 16405)
+-- TOC entry 284 (class 1255 OID 16405)
 -- Name: build_distribution(integer[], text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -430,7 +481,7 @@ $_$;
 
 
 --
--- TOC entry 280 (class 1255 OID 16406)
+-- TOC entry 285 (class 1255 OID 16406)
 -- Name: count_gvariants(text, integer, integer, integer, integer, integer, integer, character varying, text, text, text, text[], boolean, text, text, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -560,7 +611,7 @@ $$;
 
 
 --
--- TOC entry 281 (class 1255 OID 16408)
+-- TOC entry 286 (class 1255 OID 16408)
 -- Name: count_individuals(text, integer, integer, integer, integer, integer, integer, character varying, text, text, text, text[], boolean, text, text, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -681,7 +732,7 @@ $$;
 
 
 --
--- TOC entry 282 (class 1255 OID 16410)
+-- TOC entry 287 (class 1255 OID 16410)
 -- Name: count_samples(text, integer, integer, integer, integer, integer, integer, character varying, text, text, text, text[], boolean, text, text, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -802,7 +853,7 @@ $$;
 
 
 --
--- TOC entry 295 (class 1255 OID 16412)
+-- TOC entry 300 (class 1255 OID 16412)
 -- Name: create_cohort(text, jsonb, jsonb, integer[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -840,7 +891,7 @@ $$;
 
 
 --
--- TOC entry 296 (class 1255 OID 16413)
+-- TOC entry 301 (class 1255 OID 16413)
 -- Name: create_collection_event(integer[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -901,7 +952,25 @@ $$;
 
 
 --
--- TOC entry 297 (class 1255 OID 16414)
+-- TOC entry 312 (class 1255 OID 17695)
+-- Name: fetch_analyses(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.fetch_analyses(id text) RETURNS SETOF public.fetch_analyses_result_type
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	IF id IS NOT NULL THEN
+		RETURN QUERY SELECT * FROM analysis_table WHERE analysis_table.analysis_id = id;
+	ELSE
+		RETURN QUERY SELECT * FROM analysis_table;
+	END IF;
+END
+$$;
+
+
+--
+-- TOC entry 302 (class 1255 OID 16414)
 -- Name: fetch_gvariants(text, integer, integer, integer, integer, integer, integer, character varying, text, text, text, text, text[], boolean, text, text, integer, text[], integer, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1210,7 +1279,7 @@ $_$;
 
 
 --
--- TOC entry 298 (class 1255 OID 16416)
+-- TOC entry 303 (class 1255 OID 16416)
 -- Name: fetch_individuals(text, integer, integer, integer, integer, integer, integer, text, text, text, text, text[], boolean, text, text, integer, text[], integer, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1520,7 +1589,25 @@ $_$;
 
 
 --
--- TOC entry 299 (class 1255 OID 16418)
+-- TOC entry 311 (class 1255 OID 17671)
+-- Name: fetch_runs(integer); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.fetch_runs(_run_id integer) RETURNS SETOF public.fetch_runs_result_type
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	IF _run_id IS NOT NULL THEN
+		RETURN QUERY SELECT * FROM runs_table WHERE runs_table.run_id = _run_id;
+	ELSE
+		RETURN QUERY SELECT * FROM runs_table;
+	END IF;
+END
+$$;
+
+
+--
+-- TOC entry 304 (class 1255 OID 16418)
 -- Name: fetch_samples(text, integer, integer, integer, integer, integer, integer, text, text, text, text, text[], boolean, text, text, integer, text[], integer, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1798,7 +1885,25 @@ $_$;
 
 
 --
--- TOC entry 295 (class 1255 OID 16420)
+-- TOC entry 310 (class 1255 OID 17680)
+-- Name: fetch_variants_in_sample(text); Type: FUNCTION; Schema: public; Owner: -
+--
+
+CREATE FUNCTION public.fetch_variants_in_sample(variant_id text) RETURNS SETOF public.fetch_variant_in_sample_result_type
+    LANGUAGE plpgsql
+    AS $$
+BEGIN
+	IF variant_id IS NOT NULL THEN
+		RETURN QUERY SELECT * FROM variants_in_sample_table WHERE variants_in_sample_table.id = variant_id;
+	ELSE
+		RETURN QUERY SELECT * FROM variants_in_sample_table;
+	END IF;
+END
+$$;
+
+
+--
+-- TOC entry 305 (class 1255 OID 16421)
 -- Name: find_format(text[], text, text); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1835,7 +1940,7 @@ $$;
 
 
 --
--- TOC entry 301 (class 1255 OID 16421)
+-- TOC entry 306 (class 1255 OID 16422)
 -- Name: parse_filters(text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1885,7 +1990,7 @@ $$;
 
 
 --
--- TOC entry 302 (class 1255 OID 16422)
+-- TOC entry 307 (class 1255 OID 16423)
 -- Name: query_gvariants(text, integer, integer, integer, integer, integer, integer, character varying, text, text, text, text, text[], boolean, text, text, integer, text[], integer, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -1953,7 +2058,7 @@ $_$;
 
 
 --
--- TOC entry 303 (class 1255 OID 16423)
+-- TOC entry 308 (class 1255 OID 16424)
 -- Name: query_individuals(text, integer, integer, integer, integer, integer, integer, character varying, text, text, text, text[], boolean, text, text, integer, text[], integer, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2020,7 +2125,7 @@ $_$;
 
 
 --
--- TOC entry 304 (class 1255 OID 16424)
+-- TOC entry 309 (class 1255 OID 16425)
 -- Name: query_samples(text, integer, integer, integer, integer, integer, integer, character varying, text, text, text, text[], boolean, text, text, integer, text[], integer, integer, text[]); Type: FUNCTION; Schema: public; Owner: -
 --
 
@@ -2086,8 +2191,28 @@ END
 $_$;
 
 
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
 --
--- TOC entry 209 (class 1259 OID 16425)
+-- TOC entry 281 (class 1259 OID 17681)
+-- Name: analysis_table; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.analysis_table (
+    analysis_id text NOT NULL,
+    run_id text,
+    analysis_date date,
+    pipeline_name text,
+    pipeline_ref text,
+    aligner text,
+    variant_caller text
+);
+
+
+--
+-- TOC entry 209 (class 1259 OID 16426)
 -- Name: cohort_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2099,12 +2224,8 @@ CREATE SEQUENCE public.cohort_table_id_seq
     CACHE 1;
 
 
-SET default_tablespace = '';
-
-SET default_table_access_method = heap;
-
 --
--- TOC entry 210 (class 1259 OID 16427)
+-- TOC entry 210 (class 1259 OID 16428)
 -- Name: cohort_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2124,7 +2245,7 @@ CREATE TABLE public.cohort_table (
 
 
 --
--- TOC entry 211 (class 1259 OID 16434)
+-- TOC entry 211 (class 1259 OID 16435)
 -- Name: collection_event_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2137,7 +2258,7 @@ CREATE SEQUENCE public.collection_event_table_id_seq
 
 
 --
--- TOC entry 212 (class 1259 OID 16436)
+-- TOC entry 212 (class 1259 OID 16437)
 -- Name: collection_event_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2161,7 +2282,7 @@ CREATE TABLE public.collection_event_table (
 
 
 --
--- TOC entry 213 (class 1259 OID 16443)
+-- TOC entry 213 (class 1259 OID 16444)
 -- Name: collection_event; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2185,7 +2306,7 @@ CREATE VIEW public.collection_event AS
 
 
 --
--- TOC entry 214 (class 1259 OID 16447)
+-- TOC entry 214 (class 1259 OID 16448)
 -- Name: cohort; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2222,7 +2343,7 @@ CREATE VIEW public.cohort AS
 
 
 --
--- TOC entry 215 (class 1259 OID 16452)
+-- TOC entry 215 (class 1259 OID 16453)
 -- Name: consent_code_category_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2233,7 +2354,7 @@ CREATE TABLE public.consent_code_category_table (
 
 
 --
--- TOC entry 216 (class 1259 OID 16455)
+-- TOC entry 216 (class 1259 OID 16456)
 -- Name: consent_code_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2248,7 +2369,7 @@ CREATE TABLE public.consent_code_table (
 
 
 --
--- TOC entry 217 (class 1259 OID 16461)
+-- TOC entry 217 (class 1259 OID 16462)
 -- Name: consent_code_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2261,7 +2382,7 @@ CREATE SEQUENCE public.consent_code_table_id_seq
 
 
 --
--- TOC entry 3396 (class 0 OID 0)
+-- TOC entry 3424 (class 0 OID 0)
 -- Dependencies: 217
 -- Name: consent_code_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -2270,7 +2391,7 @@ ALTER SEQUENCE public.consent_code_table_id_seq OWNED BY public.consent_code_tab
 
 
 --
--- TOC entry 218 (class 1259 OID 16463)
+-- TOC entry 218 (class 1259 OID 16464)
 -- Name: dataset_handover_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2281,7 +2402,7 @@ CREATE TABLE public.dataset_handover_table (
 
 
 --
--- TOC entry 219 (class 1259 OID 16466)
+-- TOC entry 219 (class 1259 OID 16467)
 -- Name: dataset_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2304,7 +2425,7 @@ CREATE TABLE public.dataset_table (
 
 
 --
--- TOC entry 220 (class 1259 OID 16473)
+-- TOC entry 220 (class 1259 OID 16474)
 -- Name: handover_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2318,7 +2439,7 @@ CREATE TABLE public.handover_table (
 
 
 --
--- TOC entry 221 (class 1259 OID 16479)
+-- TOC entry 221 (class 1259 OID 16480)
 -- Name: dataset; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2348,7 +2469,7 @@ CREATE VIEW public.dataset AS
 
 
 --
--- TOC entry 222 (class 1259 OID 16484)
+-- TOC entry 222 (class 1259 OID 16485)
 -- Name: dataset_access_level_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2362,7 +2483,7 @@ CREATE TABLE public.dataset_access_level_table (
 
 
 --
--- TOC entry 223 (class 1259 OID 16491)
+-- TOC entry 223 (class 1259 OID 16492)
 -- Name: dataset_access_level; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2376,7 +2497,7 @@ CREATE VIEW public.dataset_access_level AS
 
 
 --
--- TOC entry 224 (class 1259 OID 16495)
+-- TOC entry 224 (class 1259 OID 16496)
 -- Name: dataset_consent_code_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2390,7 +2511,7 @@ CREATE TABLE public.dataset_consent_code_table (
 
 
 --
--- TOC entry 225 (class 1259 OID 16501)
+-- TOC entry 225 (class 1259 OID 16502)
 -- Name: dataset_consent_code; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2409,7 +2530,7 @@ CREATE VIEW public.dataset_consent_code AS
 
 
 --
--- TOC entry 226 (class 1259 OID 16506)
+-- TOC entry 226 (class 1259 OID 16507)
 -- Name: dataset_sample_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2421,7 +2542,7 @@ CREATE TABLE public.dataset_sample_table (
 
 
 --
--- TOC entry 227 (class 1259 OID 16509)
+-- TOC entry 227 (class 1259 OID 16510)
 -- Name: dataset_sample_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2434,7 +2555,7 @@ CREATE SEQUENCE public.dataset_sample_table_id_seq
 
 
 --
--- TOC entry 3397 (class 0 OID 0)
+-- TOC entry 3425 (class 0 OID 0)
 -- Dependencies: 227
 -- Name: dataset_sample_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -2443,7 +2564,7 @@ ALTER SEQUENCE public.dataset_sample_table_id_seq OWNED BY public.dataset_sample
 
 
 --
--- TOC entry 228 (class 1259 OID 16511)
+-- TOC entry 228 (class 1259 OID 16512)
 -- Name: dataset_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2456,7 +2577,7 @@ CREATE SEQUENCE public.dataset_table_id_seq
 
 
 --
--- TOC entry 3398 (class 0 OID 0)
+-- TOC entry 3426 (class 0 OID 0)
 -- Dependencies: 228
 -- Name: dataset_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -2465,7 +2586,7 @@ ALTER SEQUENCE public.dataset_table_id_seq OWNED BY public.dataset_table.id;
 
 
 --
--- TOC entry 229 (class 1259 OID 16513)
+-- TOC entry 229 (class 1259 OID 16514)
 -- Name: function_fetch_individuals_cols_required; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2491,7 +2612,7 @@ CREATE VIEW public.function_fetch_individuals_cols_required AS
 
 
 --
--- TOC entry 230 (class 1259 OID 16517)
+-- TOC entry 230 (class 1259 OID 16518)
 -- Name: function_fetch_samples_cols_required; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2523,7 +2644,7 @@ CREATE VIEW public.function_fetch_samples_cols_required AS
 
 
 --
--- TOC entry 231 (class 1259 OID 16521)
+-- TOC entry 231 (class 1259 OID 16522)
 -- Name: function_fetch_variants_cols_required; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2559,7 +2680,7 @@ CREATE VIEW public.function_fetch_variants_cols_required AS
 
 
 --
--- TOC entry 232 (class 1259 OID 16525)
+-- TOC entry 232 (class 1259 OID 16526)
 -- Name: handover_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2572,7 +2693,7 @@ CREATE SEQUENCE public.handover_table_id_seq
 
 
 --
--- TOC entry 3399 (class 0 OID 0)
+-- TOC entry 3427 (class 0 OID 0)
 -- Dependencies: 232
 -- Name: handover_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -2581,7 +2702,7 @@ ALTER SEQUENCE public.handover_table_id_seq OWNED BY public.handover_table.id;
 
 
 --
--- TOC entry 233 (class 1259 OID 16527)
+-- TOC entry 233 (class 1259 OID 16528)
 -- Name: individual_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2608,7 +2729,7 @@ CREATE TABLE public.individual_table (
 
 
 --
--- TOC entry 234 (class 1259 OID 16534)
+-- TOC entry 234 (class 1259 OID 16535)
 -- Name: individual; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2623,7 +2744,7 @@ CREATE VIEW public.individual AS
 
 
 --
--- TOC entry 235 (class 1259 OID 16538)
+-- TOC entry 235 (class 1259 OID 16539)
 -- Name: individual_alternative_id_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2637,7 +2758,7 @@ CREATE TABLE public.individual_alternative_id_table (
 
 
 --
--- TOC entry 236 (class 1259 OID 16544)
+-- TOC entry 236 (class 1259 OID 16545)
 -- Name: individual_alternative_id_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2651,7 +2772,7 @@ CREATE SEQUENCE public.individual_alternative_id_table_id_seq
 
 
 --
--- TOC entry 3400 (class 0 OID 0)
+-- TOC entry 3428 (class 0 OID 0)
 -- Dependencies: 236
 -- Name: individual_alternative_id_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -2660,7 +2781,7 @@ ALTER SEQUENCE public.individual_alternative_id_table_id_seq OWNED BY public.ind
 
 
 --
--- TOC entry 237 (class 1259 OID 16546)
+-- TOC entry 237 (class 1259 OID 16547)
 -- Name: ontology_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2676,7 +2797,7 @@ CREATE TABLE public.ontology_table (
 
 
 --
--- TOC entry 238 (class 1259 OID 16552)
+-- TOC entry 238 (class 1259 OID 16553)
 -- Name: individual_alternative_id_w_ontology; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2692,7 +2813,7 @@ CREATE VIEW public.individual_alternative_id_w_ontology AS
 
 
 --
--- TOC entry 239 (class 1259 OID 16556)
+-- TOC entry 239 (class 1259 OID 16557)
 -- Name: individual_disease_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2712,7 +2833,7 @@ CREATE TABLE public.individual_disease_table (
 
 
 --
--- TOC entry 240 (class 1259 OID 16562)
+-- TOC entry 240 (class 1259 OID 16563)
 -- Name: individual_disease_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2725,7 +2846,7 @@ CREATE SEQUENCE public.individual_disease_table_id_seq
 
 
 --
--- TOC entry 3401 (class 0 OID 0)
+-- TOC entry 3429 (class 0 OID 0)
 -- Dependencies: 240
 -- Name: individual_disease_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -2734,7 +2855,7 @@ ALTER SEQUENCE public.individual_disease_table_id_seq OWNED BY public.individual
 
 
 --
--- TOC entry 241 (class 1259 OID 16564)
+-- TOC entry 241 (class 1259 OID 16565)
 -- Name: ontology_term_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2755,7 +2876,7 @@ CREATE TABLE public.ontology_term_table (
 
 
 --
--- TOC entry 242 (class 1259 OID 16570)
+-- TOC entry 242 (class 1259 OID 16571)
 -- Name: individual_disease_w_ontology_terms; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2827,7 +2948,7 @@ CREATE VIEW public.individual_disease_w_ontology_terms AS
 
 
 --
--- TOC entry 243 (class 1259 OID 16575)
+-- TOC entry 243 (class 1259 OID 16576)
 -- Name: individual_exposure_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2846,7 +2967,7 @@ CREATE TABLE public.individual_exposure_table (
 
 
 --
--- TOC entry 244 (class 1259 OID 16581)
+-- TOC entry 244 (class 1259 OID 16582)
 -- Name: individual_handover_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2857,7 +2978,7 @@ CREATE TABLE public.individual_handover_table (
 
 
 --
--- TOC entry 245 (class 1259 OID 16584)
+-- TOC entry 245 (class 1259 OID 16585)
 -- Name: individual_handovers; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2872,7 +2993,7 @@ CREATE VIEW public.individual_handovers AS
 
 
 --
--- TOC entry 246 (class 1259 OID 16588)
+-- TOC entry 246 (class 1259 OID 16589)
 -- Name: individual_intervention_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2887,7 +3008,7 @@ CREATE TABLE public.individual_intervention_table (
 
 
 --
--- TOC entry 247 (class 1259 OID 16594)
+-- TOC entry 247 (class 1259 OID 16595)
 -- Name: individual_measure_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2903,7 +3024,7 @@ CREATE TABLE public.individual_measure_table (
 
 
 --
--- TOC entry 248 (class 1259 OID 16600)
+-- TOC entry 248 (class 1259 OID 16601)
 -- Name: individual_pedigree_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2918,7 +3039,7 @@ CREATE TABLE public.individual_pedigree_table (
 
 
 --
--- TOC entry 249 (class 1259 OID 16606)
+-- TOC entry 249 (class 1259 OID 16607)
 -- Name: pedigree_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2930,7 +3051,7 @@ CREATE TABLE public.pedigree_table (
 
 
 --
--- TOC entry 250 (class 1259 OID 16612)
+-- TOC entry 250 (class 1259 OID 16613)
 -- Name: individual_pedigree_w_ontology_terms; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -2964,7 +3085,7 @@ CREATE VIEW public.individual_pedigree_w_ontology_terms AS
 
 
 --
--- TOC entry 251 (class 1259 OID 16617)
+-- TOC entry 251 (class 1259 OID 16618)
 -- Name: individual_phenotypic_feature_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -2981,7 +3102,7 @@ CREATE TABLE public.individual_phenotypic_feature_table (
 
 
 --
--- TOC entry 252 (class 1259 OID 16623)
+-- TOC entry 252 (class 1259 OID 16624)
 -- Name: individual_phenotypic_feature_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -2994,7 +3115,7 @@ CREATE SEQUENCE public.individual_phenotypic_feature_table_id_seq
 
 
 --
--- TOC entry 3402 (class 0 OID 0)
+-- TOC entry 3430 (class 0 OID 0)
 -- Dependencies: 252
 -- Name: individual_phenotypic_feature_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -3003,7 +3124,7 @@ ALTER SEQUENCE public.individual_phenotypic_feature_table_id_seq OWNED BY public
 
 
 --
--- TOC entry 253 (class 1259 OID 16625)
+-- TOC entry 253 (class 1259 OID 16626)
 -- Name: individual_phenotypic_feature_w_ontology_terms; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -3064,7 +3185,7 @@ CREATE VIEW public.individual_phenotypic_feature_w_ontology_terms AS
 
 
 --
--- TOC entry 254 (class 1259 OID 16630)
+-- TOC entry 254 (class 1259 OID 16631)
 -- Name: individual_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3077,7 +3198,7 @@ CREATE SEQUENCE public.individual_table_id_seq
 
 
 --
--- TOC entry 3403 (class 0 OID 0)
+-- TOC entry 3431 (class 0 OID 0)
 -- Dependencies: 254
 -- Name: individual_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
@@ -3086,7 +3207,7 @@ ALTER SEQUENCE public.individual_table_id_seq OWNED BY public.individual_table.i
 
 
 --
--- TOC entry 255 (class 1259 OID 16632)
+-- TOC entry 255 (class 1259 OID 16633)
 -- Name: individual_w_metadata; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -3129,7 +3250,7 @@ CREATE VIEW public.individual_w_metadata AS
 
 
 --
--- TOC entry 256 (class 1259 OID 16637)
+-- TOC entry 256 (class 1259 OID 16638)
 -- Name: individual_w_ontology_terms; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -3199,7 +3320,7 @@ CREATE VIEW public.individual_w_ontology_terms AS
 
 
 --
--- TOC entry 277 (class 1259 OID 17616)
+-- TOC entry 257 (class 1259 OID 16643)
 -- Name: interactors_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3210,7 +3331,7 @@ INHERITS (public.individual_table);
 
 
 --
--- TOC entry 257 (class 1259 OID 16642)
+-- TOC entry 258 (class 1259 OID 16650)
 -- Name: ontology_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3223,8 +3344,8 @@ CREATE SEQUENCE public.ontology_table_id_seq
 
 
 --
--- TOC entry 3404 (class 0 OID 0)
--- Dependencies: 257
+-- TOC entry 3432 (class 0 OID 0)
+-- Dependencies: 258
 -- Name: ontology_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -3232,7 +3353,7 @@ ALTER SEQUENCE public.ontology_table_id_seq OWNED BY public.ontology_table.id;
 
 
 --
--- TOC entry 258 (class 1259 OID 16644)
+-- TOC entry 259 (class 1259 OID 16652)
 -- Name: ontology_term; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -3250,7 +3371,7 @@ CREATE VIEW public.ontology_term AS
 
 
 --
--- TOC entry 259 (class 1259 OID 16648)
+-- TOC entry 260 (class 1259 OID 16656)
 -- Name: ontology_term_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3263,8 +3384,8 @@ CREATE SEQUENCE public.ontology_term_table_id_seq
 
 
 --
--- TOC entry 3405 (class 0 OID 0)
--- Dependencies: 259
+-- TOC entry 3433 (class 0 OID 0)
+-- Dependencies: 260
 -- Name: ontology_term_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -3272,7 +3393,7 @@ ALTER SEQUENCE public.ontology_term_table_id_seq OWNED BY public.ontology_term_t
 
 
 --
--- TOC entry 260 (class 1259 OID 16650)
+-- TOC entry 261 (class 1259 OID 16658)
 -- Name: pedigree_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3285,8 +3406,8 @@ CREATE SEQUENCE public.pedigree_table_id_seq
 
 
 --
--- TOC entry 3406 (class 0 OID 0)
--- Dependencies: 260
+-- TOC entry 3434 (class 0 OID 0)
+-- Dependencies: 261
 -- Name: pedigree_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -3294,7 +3415,25 @@ ALTER SEQUENCE public.pedigree_table_id_seq OWNED BY public.pedigree_table.id;
 
 
 --
--- TOC entry 261 (class 1259 OID 16652)
+-- TOC entry 278 (class 1259 OID 17645)
+-- Name: runs_table; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.runs_table (
+    run_id integer NOT NULL,
+    biosample_id text NOT NULL,
+    run_date date NOT NULL,
+    library_source text,
+    library_selection text,
+    library_strategy text,
+    library_layout text,
+    platform text,
+    platform_model text
+);
+
+
+--
+-- TOC entry 262 (class 1259 OID 16660)
 -- Name: sample_handover_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3305,7 +3444,7 @@ CREATE TABLE public.sample_handover_table (
 
 
 --
--- TOC entry 262 (class 1259 OID 16655)
+-- TOC entry 263 (class 1259 OID 16663)
 -- Name: sample_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3329,7 +3468,7 @@ CREATE TABLE public.sample_table (
 
 
 --
--- TOC entry 263 (class 1259 OID 16661)
+-- TOC entry 264 (class 1259 OID 16669)
 -- Name: sample_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3342,8 +3481,8 @@ CREATE SEQUENCE public.sample_table_id_seq
 
 
 --
--- TOC entry 3407 (class 0 OID 0)
--- Dependencies: 263
+-- TOC entry 3435 (class 0 OID 0)
+-- Dependencies: 264
 -- Name: sample_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -3351,7 +3490,7 @@ ALTER SEQUENCE public.sample_table_id_seq OWNED BY public.sample_table.id;
 
 
 --
--- TOC entry 264 (class 1259 OID 16663)
+-- TOC entry 265 (class 1259 OID 16671)
 -- Name: sample_w_ontology_terms; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -3449,7 +3588,7 @@ CREATE VIEW public.sample_w_ontology_terms AS
 
 
 --
--- TOC entry 265 (class 1259 OID 16668)
+-- TOC entry 266 (class 1259 OID 16676)
 -- Name: schema_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3464,7 +3603,7 @@ CREATE TABLE public.schema_table (
 
 
 --
--- TOC entry 266 (class 1259 OID 16675)
+-- TOC entry 267 (class 1259 OID 16683)
 -- Name: schema_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3478,8 +3617,8 @@ CREATE SEQUENCE public.schema_table_id_seq
 
 
 --
--- TOC entry 3408 (class 0 OID 0)
--- Dependencies: 266
+-- TOC entry 3436 (class 0 OID 0)
+-- Dependencies: 267
 -- Name: schema_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -3487,7 +3626,7 @@ ALTER SEQUENCE public.schema_table_id_seq OWNED BY public.schema_table.id;
 
 
 --
--- TOC entry 267 (class 1259 OID 16677)
+-- TOC entry 268 (class 1259 OID 16685)
 -- Name: variant_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3525,7 +3664,7 @@ CREATE TABLE public.variant_table (
 
 
 --
--- TOC entry 268 (class 1259 OID 16683)
+-- TOC entry 269 (class 1259 OID 16691)
 -- Name: variant; Type: VIEW; Schema: public; Owner: -
 --
 
@@ -3569,7 +3708,7 @@ CREATE VIEW public.variant AS
 
 
 --
--- TOC entry 269 (class 1259 OID 16688)
+-- TOC entry 270 (class 1259 OID 16696)
 -- Name: variant_sample_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3583,7 +3722,7 @@ CREATE TABLE public.variant_sample_table (
 
 
 --
--- TOC entry 270 (class 1259 OID 16694)
+-- TOC entry 271 (class 1259 OID 16702)
 -- Name: variant_table_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -3597,8 +3736,8 @@ CREATE SEQUENCE public.variant_table_id_seq
 
 
 --
--- TOC entry 3409 (class 0 OID 0)
--- Dependencies: 270
+-- TOC entry 3437 (class 0 OID 0)
+-- Dependencies: 271
 -- Name: variant_table_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
 --
 
@@ -3606,7 +3745,7 @@ ALTER SEQUENCE public.variant_table_id_seq OWNED BY public.variant_table.id;
 
 
 --
--- TOC entry 275 (class 1259 OID 17600)
+-- TOC entry 272 (class 1259 OID 16704)
 -- Name: variants_in_sample_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3623,7 +3762,7 @@ CREATE TABLE public.variants_in_sample_table (
 
 
 --
--- TOC entry 276 (class 1259 OID 17608)
+-- TOC entry 273 (class 1259 OID 16710)
 -- Name: variants_interpretation_table; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -3636,7 +3775,7 @@ CREATE TABLE public.variants_interpretation_table (
 
 
 --
--- TOC entry 271 (class 1259 OID 16696)
+-- TOC entry 274 (class 1259 OID 16716)
 -- Name: tmp_sample_table; Type: TABLE; Schema: tmp; Owner: -
 --
 
@@ -3648,7 +3787,7 @@ CREATE TABLE tmp.tmp_sample_table (
 
 
 --
--- TOC entry 272 (class 1259 OID 16702)
+-- TOC entry 275 (class 1259 OID 16722)
 -- Name: tmp_sample_table_id_seq; Type: SEQUENCE; Schema: tmp; Owner: -
 --
 
@@ -3661,8 +3800,8 @@ CREATE SEQUENCE tmp.tmp_sample_table_id_seq
 
 
 --
--- TOC entry 3410 (class 0 OID 0)
--- Dependencies: 272
+-- TOC entry 3438 (class 0 OID 0)
+-- Dependencies: 275
 -- Name: tmp_sample_table_id_seq; Type: SEQUENCE OWNED BY; Schema: tmp; Owner: -
 --
 
@@ -3670,7 +3809,7 @@ ALTER SEQUENCE tmp.tmp_sample_table_id_seq OWNED BY tmp.tmp_sample_table.id;
 
 
 --
--- TOC entry 273 (class 1259 OID 16704)
+-- TOC entry 276 (class 1259 OID 16724)
 -- Name: tmp_variant_sample_table; Type: TABLE; Schema: tmp; Owner: -
 --
 
@@ -3683,7 +3822,7 @@ CREATE TABLE tmp.tmp_variant_sample_table (
 
 
 --
--- TOC entry 274 (class 1259 OID 16710)
+-- TOC entry 277 (class 1259 OID 16730)
 -- Name: tmp_variant_sample_table_id_seq; Type: SEQUENCE; Schema: tmp; Owner: -
 --
 
@@ -3697,8 +3836,8 @@ CREATE SEQUENCE tmp.tmp_variant_sample_table_id_seq
 
 
 --
--- TOC entry 3411 (class 0 OID 0)
--- Dependencies: 274
+-- TOC entry 3439 (class 0 OID 0)
+-- Dependencies: 277
 -- Name: tmp_variant_sample_table_id_seq; Type: SEQUENCE OWNED BY; Schema: tmp; Owner: -
 --
 
@@ -3706,7 +3845,7 @@ ALTER SEQUENCE tmp.tmp_variant_sample_table_id_seq OWNED BY tmp.tmp_variant_samp
 
 
 --
--- TOC entry 3128 (class 2604 OID 16712)
+-- TOC entry 3152 (class 2604 OID 16732)
 -- Name: consent_code_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3714,7 +3853,7 @@ ALTER TABLE ONLY public.consent_code_table ALTER COLUMN id SET DEFAULT nextval('
 
 
 --
--- TOC entry 3133 (class 2604 OID 16713)
+-- TOC entry 3157 (class 2604 OID 16733)
 -- Name: dataset_sample_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3722,7 +3861,7 @@ ALTER TABLE ONLY public.dataset_sample_table ALTER COLUMN id SET DEFAULT nextval
 
 
 --
--- TOC entry 3129 (class 2604 OID 16714)
+-- TOC entry 3153 (class 2604 OID 16734)
 -- Name: dataset_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3730,7 +3869,7 @@ ALTER TABLE ONLY public.dataset_table ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 3131 (class 2604 OID 16715)
+-- TOC entry 3155 (class 2604 OID 16735)
 -- Name: handover_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3738,7 +3877,7 @@ ALTER TABLE ONLY public.handover_table ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3136 (class 2604 OID 16716)
+-- TOC entry 3160 (class 2604 OID 16736)
 -- Name: individual_alternative_id_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3746,7 +3885,7 @@ ALTER TABLE ONLY public.individual_alternative_id_table ALTER COLUMN id SET DEFA
 
 
 --
--- TOC entry 3138 (class 2604 OID 16717)
+-- TOC entry 3162 (class 2604 OID 16737)
 -- Name: individual_disease_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3754,7 +3893,7 @@ ALTER TABLE ONLY public.individual_disease_table ALTER COLUMN id SET DEFAULT nex
 
 
 --
--- TOC entry 3141 (class 2604 OID 16718)
+-- TOC entry 3165 (class 2604 OID 16738)
 -- Name: individual_phenotypic_feature_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3762,7 +3901,7 @@ ALTER TABLE ONLY public.individual_phenotypic_feature_table ALTER COLUMN id SET 
 
 
 --
--- TOC entry 3134 (class 2604 OID 16719)
+-- TOC entry 3158 (class 2604 OID 16739)
 -- Name: individual_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3770,7 +3909,7 @@ ALTER TABLE ONLY public.individual_table ALTER COLUMN id SET DEFAULT nextval('pu
 
 
 --
--- TOC entry 3148 (class 2604 OID 17619)
+-- TOC entry 3166 (class 2604 OID 16740)
 -- Name: interactors_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3778,7 +3917,7 @@ ALTER TABLE ONLY public.interactors_table ALTER COLUMN id SET DEFAULT nextval('p
 
 
 --
--- TOC entry 3137 (class 2604 OID 16720)
+-- TOC entry 3161 (class 2604 OID 16741)
 -- Name: ontology_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3786,7 +3925,7 @@ ALTER TABLE ONLY public.ontology_table ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3139 (class 2604 OID 16721)
+-- TOC entry 3163 (class 2604 OID 16742)
 -- Name: ontology_term_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3794,7 +3933,7 @@ ALTER TABLE ONLY public.ontology_term_table ALTER COLUMN id SET DEFAULT nextval(
 
 
 --
--- TOC entry 3140 (class 2604 OID 16722)
+-- TOC entry 3164 (class 2604 OID 16743)
 -- Name: pedigree_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3802,7 +3941,7 @@ ALTER TABLE ONLY public.pedigree_table ALTER COLUMN id SET DEFAULT nextval('publ
 
 
 --
--- TOC entry 3142 (class 2604 OID 16723)
+-- TOC entry 3168 (class 2604 OID 16744)
 -- Name: sample_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3810,7 +3949,7 @@ ALTER TABLE ONLY public.sample_table ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
--- TOC entry 3144 (class 2604 OID 16724)
+-- TOC entry 3170 (class 2604 OID 16745)
 -- Name: schema_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3818,7 +3957,7 @@ ALTER TABLE ONLY public.schema_table ALTER COLUMN id SET DEFAULT nextval('public
 
 
 --
--- TOC entry 3145 (class 2604 OID 16725)
+-- TOC entry 3171 (class 2604 OID 16746)
 -- Name: variant_table id; Type: DEFAULT; Schema: public; Owner: -
 --
 
@@ -3826,7 +3965,7 @@ ALTER TABLE ONLY public.variant_table ALTER COLUMN id SET DEFAULT nextval('publi
 
 
 --
--- TOC entry 3146 (class 2604 OID 16726)
+-- TOC entry 3172 (class 2604 OID 16747)
 -- Name: tmp_sample_table id; Type: DEFAULT; Schema: tmp; Owner: -
 --
 
@@ -3834,7 +3973,7 @@ ALTER TABLE ONLY tmp.tmp_sample_table ALTER COLUMN id SET DEFAULT nextval('tmp.t
 
 
 --
--- TOC entry 3147 (class 2604 OID 16727)
+-- TOC entry 3173 (class 2604 OID 16748)
 -- Name: tmp_variant_sample_table id; Type: DEFAULT; Schema: tmp; Owner: -
 --
 
@@ -3842,7 +3981,16 @@ ALTER TABLE ONLY tmp.tmp_variant_sample_table ALTER COLUMN id SET DEFAULT nextva
 
 
 --
--- TOC entry 3214 (class 2606 OID 16729)
+-- TOC entry 3248 (class 2606 OID 17688)
+-- Name: analysis_table analysis_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.analysis_table
+    ADD CONSTRAINT analysis_table_pkey PRIMARY KEY (analysis_id);
+
+
+--
+-- TOC entry 3238 (class 2606 OID 16750)
 -- Name: variant_sample_table beacon_data_sample_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3851,7 +3999,7 @@ ALTER TABLE ONLY public.variant_sample_table
 
 
 --
--- TOC entry 3210 (class 2606 OID 16731)
+-- TOC entry 3234 (class 2606 OID 16752)
 -- Name: variant_table beacon_data_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3860,7 +4008,7 @@ ALTER TABLE ONLY public.variant_table
 
 
 --
--- TOC entry 3201 (class 2606 OID 16733)
+-- TOC entry 3225 (class 2606 OID 16754)
 -- Name: sample_table beacon_sample_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3869,7 +4017,7 @@ ALTER TABLE ONLY public.sample_table
 
 
 --
--- TOC entry 3151 (class 2606 OID 16735)
+-- TOC entry 3175 (class 2606 OID 16756)
 -- Name: cohort_table cohort_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3878,7 +4026,7 @@ ALTER TABLE ONLY public.cohort_table
 
 
 --
--- TOC entry 3153 (class 2606 OID 16737)
+-- TOC entry 3177 (class 2606 OID 16758)
 -- Name: collection_event_table collection_event_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3887,7 +4035,7 @@ ALTER TABLE ONLY public.collection_event_table
 
 
 --
--- TOC entry 3155 (class 2606 OID 16739)
+-- TOC entry 3179 (class 2606 OID 16760)
 -- Name: consent_code_category_table consent_code_category_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3896,7 +4044,7 @@ ALTER TABLE ONLY public.consent_code_category_table
 
 
 --
--- TOC entry 3157 (class 2606 OID 16741)
+-- TOC entry 3181 (class 2606 OID 16762)
 -- Name: consent_code_table consent_code_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3905,7 +4053,7 @@ ALTER TABLE ONLY public.consent_code_table
 
 
 --
--- TOC entry 3165 (class 2606 OID 16743)
+-- TOC entry 3189 (class 2606 OID 16764)
 -- Name: dataset_access_level_table dataset_access_level_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3914,7 +4062,7 @@ ALTER TABLE ONLY public.dataset_access_level_table
 
 
 --
--- TOC entry 3167 (class 2606 OID 16745)
+-- TOC entry 3191 (class 2606 OID 16766)
 -- Name: dataset_consent_code_table dataset_consent_code_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3923,7 +4071,7 @@ ALTER TABLE ONLY public.dataset_consent_code_table
 
 
 --
--- TOC entry 3169 (class 2606 OID 16747)
+-- TOC entry 3193 (class 2606 OID 16768)
 -- Name: dataset_sample_table dataset_sample_table_dataset_id_sample_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3932,7 +4080,7 @@ ALTER TABLE ONLY public.dataset_sample_table
 
 
 --
--- TOC entry 3171 (class 2606 OID 16749)
+-- TOC entry 3195 (class 2606 OID 16770)
 -- Name: dataset_sample_table dataset_sample_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3941,7 +4089,7 @@ ALTER TABLE ONLY public.dataset_sample_table
 
 
 --
--- TOC entry 3159 (class 2606 OID 16751)
+-- TOC entry 3183 (class 2606 OID 16772)
 -- Name: dataset_table dataset_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3950,7 +4098,7 @@ ALTER TABLE ONLY public.dataset_table
 
 
 --
--- TOC entry 3163 (class 2606 OID 16753)
+-- TOC entry 3187 (class 2606 OID 16774)
 -- Name: handover_table handover_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3959,7 +4107,7 @@ ALTER TABLE ONLY public.handover_table
 
 
 --
--- TOC entry 3175 (class 2606 OID 16755)
+-- TOC entry 3199 (class 2606 OID 16776)
 -- Name: individual_alternative_id_table individual_alternative_id_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3968,7 +4116,7 @@ ALTER TABLE ONLY public.individual_alternative_id_table
 
 
 --
--- TOC entry 3187 (class 2606 OID 16757)
+-- TOC entry 3211 (class 2606 OID 16778)
 -- Name: individual_exposure_table individual_exposure_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3977,7 +4125,7 @@ ALTER TABLE ONLY public.individual_exposure_table
 
 
 --
--- TOC entry 3189 (class 2606 OID 16759)
+-- TOC entry 3213 (class 2606 OID 16780)
 -- Name: individual_intervention_table individual_intervention_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3986,7 +4134,7 @@ ALTER TABLE ONLY public.individual_intervention_table
 
 
 --
--- TOC entry 3191 (class 2606 OID 16761)
+-- TOC entry 3215 (class 2606 OID 16782)
 -- Name: individual_measure_table individual_measure_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -3995,7 +4143,7 @@ ALTER TABLE ONLY public.individual_measure_table
 
 
 --
--- TOC entry 3199 (class 2606 OID 16763)
+-- TOC entry 3223 (class 2606 OID 16784)
 -- Name: individual_phenotypic_feature_table individual_phenotypic_feature_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4004,7 +4152,7 @@ ALTER TABLE ONLY public.individual_phenotypic_feature_table
 
 
 --
--- TOC entry 3177 (class 2606 OID 16765)
+-- TOC entry 3201 (class 2606 OID 16786)
 -- Name: ontology_table ontology_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4013,7 +4161,7 @@ ALTER TABLE ONLY public.ontology_table
 
 
 --
--- TOC entry 3183 (class 2606 OID 16767)
+-- TOC entry 3207 (class 2606 OID 16788)
 -- Name: ontology_term_table ontology_term_table_ontology_term_target_table_column_name_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4022,7 +4170,7 @@ ALTER TABLE ONLY public.ontology_term_table
 
 
 --
--- TOC entry 3185 (class 2606 OID 16769)
+-- TOC entry 3209 (class 2606 OID 16790)
 -- Name: ontology_term_table ontology_term_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4031,7 +4179,7 @@ ALTER TABLE ONLY public.ontology_term_table
 
 
 --
--- TOC entry 3179 (class 2606 OID 16771)
+-- TOC entry 3203 (class 2606 OID 16792)
 -- Name: individual_disease_table patient_disease_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4040,7 +4188,7 @@ ALTER TABLE ONLY public.individual_disease_table
 
 
 --
--- TOC entry 3193 (class 2606 OID 16773)
+-- TOC entry 3217 (class 2606 OID 16794)
 -- Name: individual_pedigree_table patient_pedigree_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4049,7 +4197,7 @@ ALTER TABLE ONLY public.individual_pedigree_table
 
 
 --
--- TOC entry 3173 (class 2606 OID 16775)
+-- TOC entry 3197 (class 2606 OID 16796)
 -- Name: individual_table patient_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4058,7 +4206,7 @@ ALTER TABLE ONLY public.individual_table
 
 
 --
--- TOC entry 3195 (class 2606 OID 16777)
+-- TOC entry 3219 (class 2606 OID 16798)
 -- Name: pedigree_table pedigree_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4067,7 +4215,7 @@ ALTER TABLE ONLY public.pedigree_table
 
 
 --
--- TOC entry 3197 (class 2606 OID 16779)
+-- TOC entry 3221 (class 2606 OID 16800)
 -- Name: pedigree_table pedigree_table_stable_id_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4076,7 +4224,16 @@ ALTER TABLE ONLY public.pedigree_table
 
 
 --
--- TOC entry 3204 (class 2606 OID 16781)
+-- TOC entry 3246 (class 2606 OID 17649)
+-- Name: runs_table runs_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.runs_table
+    ADD CONSTRAINT runs_table_pkey PRIMARY KEY (run_id);
+
+
+--
+-- TOC entry 3228 (class 2606 OID 16802)
 -- Name: sample_table sample_unique; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4085,7 +4242,7 @@ ALTER TABLE ONLY public.sample_table
 
 
 --
--- TOC entry 3206 (class 2606 OID 16783)
+-- TOC entry 3230 (class 2606 OID 16804)
 -- Name: schema_table schema_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4094,7 +4251,7 @@ ALTER TABLE ONLY public.schema_table
 
 
 --
--- TOC entry 3208 (class 2606 OID 16785)
+-- TOC entry 3232 (class 2606 OID 16806)
 -- Name: schema_table schema_table_schema_name_table_name_field_name_is_default_key; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4103,7 +4260,7 @@ ALTER TABLE ONLY public.schema_table
 
 
 --
--- TOC entry 3161 (class 2606 OID 16787)
+-- TOC entry 3185 (class 2606 OID 16808)
 -- Name: dataset_table unique_dataset_stable_id_reference_genome_access_type; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4112,7 +4269,7 @@ ALTER TABLE ONLY public.dataset_table
 
 
 --
--- TOC entry 3218 (class 2606 OID 17607)
+-- TOC entry 3240 (class 2606 OID 16810)
 -- Name: variants_in_sample_table variants_in_sample_table_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4121,7 +4278,7 @@ ALTER TABLE ONLY public.variants_in_sample_table
 
 
 --
--- TOC entry 3220 (class 2606 OID 17615)
+-- TOC entry 3242 (class 2606 OID 16812)
 -- Name: variants_interpretation_table variants_interpretation_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4130,7 +4287,7 @@ ALTER TABLE ONLY public.variants_interpretation_table
 
 
 --
--- TOC entry 3216 (class 2606 OID 16789)
+-- TOC entry 3244 (class 2606 OID 16814)
 -- Name: tmp_variant_sample_table tmp_variant_sample_table_pkey; Type: CONSTRAINT; Schema: tmp; Owner: -
 --
 
@@ -4139,7 +4296,7 @@ ALTER TABLE ONLY tmp.tmp_variant_sample_table
 
 
 --
--- TOC entry 3180 (class 1259 OID 16790)
+-- TOC entry 3204 (class 1259 OID 16815)
 -- Name: idx_ontology_term_table_ontology_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4147,7 +4304,7 @@ CREATE INDEX idx_ontology_term_table_ontology_id ON public.ontology_term_table U
 
 
 --
--- TOC entry 3181 (class 1259 OID 16791)
+-- TOC entry 3205 (class 1259 OID 16816)
 -- Name: idx_ontology_term_table_target_table_column_name_label; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4155,7 +4312,7 @@ CREATE INDEX idx_ontology_term_table_target_table_column_name_label ON public.on
 
 
 --
--- TOC entry 3202 (class 1259 OID 16792)
+-- TOC entry 3226 (class 1259 OID 16817)
 -- Name: idx_sample_table_stable_id; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4163,7 +4320,7 @@ CREATE INDEX idx_sample_table_stable_id ON public.sample_table USING btree (stab
 
 
 --
--- TOC entry 3211 (class 1259 OID 16793)
+-- TOC entry 3235 (class 1259 OID 16818)
 -- Name: idx_variant_table_region_columns; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4171,7 +4328,7 @@ CREATE INDEX idx_variant_table_region_columns ON public.variant_table USING btre
 
 
 --
--- TOC entry 3212 (class 1259 OID 16794)
+-- TOC entry 3236 (class 1259 OID 16819)
 -- Name: idx_variant_table_snp_columns; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -4179,7 +4336,7 @@ CREATE INDEX idx_variant_table_snp_columns ON public.variant_table USING btree (
 
 
 --
--- TOC entry 3221 (class 2606 OID 16795)
+-- TOC entry 3249 (class 2606 OID 16820)
 -- Name: collection_event_table collection_event_table_cohort_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4188,7 +4345,7 @@ ALTER TABLE ONLY public.collection_event_table
 
 
 --
--- TOC entry 3222 (class 2606 OID 16800)
+-- TOC entry 3250 (class 2606 OID 16825)
 -- Name: consent_code_table consent_code_table_category_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4197,7 +4354,7 @@ ALTER TABLE ONLY public.consent_code_table
 
 
 --
--- TOC entry 3225 (class 2606 OID 16805)
+-- TOC entry 3253 (class 2606 OID 16830)
 -- Name: dataset_access_level_table dataset_access_level_table_dataset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4206,7 +4363,7 @@ ALTER TABLE ONLY public.dataset_access_level_table
 
 
 --
--- TOC entry 3226 (class 2606 OID 16810)
+-- TOC entry 3254 (class 2606 OID 16835)
 -- Name: dataset_consent_code_table dataset_consent_code_table_consent_code_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4215,7 +4372,7 @@ ALTER TABLE ONLY public.dataset_consent_code_table
 
 
 --
--- TOC entry 3227 (class 2606 OID 16815)
+-- TOC entry 3255 (class 2606 OID 16840)
 -- Name: dataset_consent_code_table dataset_consent_code_table_dataset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4224,7 +4381,7 @@ ALTER TABLE ONLY public.dataset_consent_code_table
 
 
 --
--- TOC entry 3223 (class 2606 OID 16820)
+-- TOC entry 3251 (class 2606 OID 16845)
 -- Name: dataset_handover_table dataset_handover_table_dataset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4233,7 +4390,7 @@ ALTER TABLE ONLY public.dataset_handover_table
 
 
 --
--- TOC entry 3224 (class 2606 OID 16825)
+-- TOC entry 3252 (class 2606 OID 16850)
 -- Name: dataset_handover_table dataset_handover_table_handover_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4242,7 +4399,7 @@ ALTER TABLE ONLY public.dataset_handover_table
 
 
 --
--- TOC entry 3228 (class 2606 OID 16830)
+-- TOC entry 3256 (class 2606 OID 16855)
 -- Name: dataset_sample_table dataset_sample_table_dataset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4251,7 +4408,7 @@ ALTER TABLE ONLY public.dataset_sample_table
 
 
 --
--- TOC entry 3229 (class 2606 OID 16835)
+-- TOC entry 3257 (class 2606 OID 16860)
 -- Name: dataset_sample_table dataset_sample_table_sample_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4260,7 +4417,7 @@ ALTER TABLE ONLY public.dataset_sample_table
 
 
 --
--- TOC entry 3230 (class 2606 OID 16840)
+-- TOC entry 3258 (class 2606 OID 16865)
 -- Name: individual_alternative_id_table individual_alternative_id_table_individual_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4269,7 +4426,7 @@ ALTER TABLE ONLY public.individual_alternative_id_table
 
 
 --
--- TOC entry 3231 (class 2606 OID 16845)
+-- TOC entry 3259 (class 2606 OID 16870)
 -- Name: individual_alternative_id_table individual_alternative_id_table_ontology_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4278,7 +4435,7 @@ ALTER TABLE ONLY public.individual_alternative_id_table
 
 
 --
--- TOC entry 3234 (class 2606 OID 16850)
+-- TOC entry 3262 (class 2606 OID 16875)
 -- Name: individual_handover_table individual_handover_table_handover_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4287,7 +4444,7 @@ ALTER TABLE ONLY public.individual_handover_table
 
 
 --
--- TOC entry 3235 (class 2606 OID 16855)
+-- TOC entry 3263 (class 2606 OID 16880)
 -- Name: individual_handover_table individual_handover_table_individual_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4296,7 +4453,7 @@ ALTER TABLE ONLY public.individual_handover_table
 
 
 --
--- TOC entry 3238 (class 2606 OID 16860)
+-- TOC entry 3266 (class 2606 OID 16885)
 -- Name: individual_phenotypic_feature_table individual_phenotypic_feature_table_individual_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4305,7 +4462,7 @@ ALTER TABLE ONLY public.individual_phenotypic_feature_table
 
 
 --
--- TOC entry 3233 (class 2606 OID 16865)
+-- TOC entry 3261 (class 2606 OID 16890)
 -- Name: ontology_term_table ontology_term_table_ontology_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4314,7 +4471,7 @@ ALTER TABLE ONLY public.ontology_term_table
 
 
 --
--- TOC entry 3232 (class 2606 OID 16870)
+-- TOC entry 3260 (class 2606 OID 16895)
 -- Name: individual_disease_table patient_disease_table_patient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4323,7 +4480,7 @@ ALTER TABLE ONLY public.individual_disease_table
 
 
 --
--- TOC entry 3241 (class 2606 OID 16875)
+-- TOC entry 3269 (class 2606 OID 16900)
 -- Name: sample_table patient_id; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4332,7 +4489,7 @@ ALTER TABLE ONLY public.sample_table
 
 
 --
--- TOC entry 3236 (class 2606 OID 16880)
+-- TOC entry 3264 (class 2606 OID 16905)
 -- Name: individual_pedigree_table patient_pedigree_table_patient_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4341,7 +4498,7 @@ ALTER TABLE ONLY public.individual_pedigree_table
 
 
 --
--- TOC entry 3237 (class 2606 OID 16885)
+-- TOC entry 3265 (class 2606 OID 16910)
 -- Name: individual_pedigree_table patient_pedigree_table_pedigree_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4350,7 +4507,7 @@ ALTER TABLE ONLY public.individual_pedigree_table
 
 
 --
--- TOC entry 3239 (class 2606 OID 16890)
+-- TOC entry 3267 (class 2606 OID 16915)
 -- Name: sample_handover_table sample_handover_table_handover_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4359,7 +4516,7 @@ ALTER TABLE ONLY public.sample_handover_table
 
 
 --
--- TOC entry 3240 (class 2606 OID 16895)
+-- TOC entry 3268 (class 2606 OID 16920)
 -- Name: sample_handover_table sample_handover_table_sample_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4368,7 +4525,7 @@ ALTER TABLE ONLY public.sample_handover_table
 
 
 --
--- TOC entry 3243 (class 2606 OID 16900)
+-- TOC entry 3271 (class 2606 OID 16925)
 -- Name: variant_sample_table variant_sample_table_sample_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4377,7 +4534,7 @@ ALTER TABLE ONLY public.variant_sample_table
 
 
 --
--- TOC entry 3244 (class 2606 OID 16905)
+-- TOC entry 3272 (class 2606 OID 16930)
 -- Name: variant_sample_table variant_sample_table_variant_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4386,7 +4543,7 @@ ALTER TABLE ONLY public.variant_sample_table
 
 
 --
--- TOC entry 3242 (class 2606 OID 16910)
+-- TOC entry 3270 (class 2606 OID 16935)
 -- Name: variant_table variant_table_dataset_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -4395,7 +4552,7 @@ ALTER TABLE ONLY public.variant_table
 
 
 --
--- TOC entry 3245 (class 2606 OID 16915)
+-- TOC entry 3273 (class 2606 OID 16940)
 -- Name: tmp_sample_table tmp_sample_table_dataset_id_fkey; Type: FK CONSTRAINT; Schema: tmp; Owner: -
 --
 
@@ -4403,7 +4560,7 @@ ALTER TABLE ONLY tmp.tmp_sample_table
     ADD CONSTRAINT tmp_sample_table_dataset_id_fkey FOREIGN KEY (dataset_id) REFERENCES public.dataset_table(id);
 
 
--- Completed on 2021-05-18 17:55:42 CEST
+-- Completed on 2021-07-23 04:53:07 CEST
 
 --
 -- PostgreSQL database dump complete

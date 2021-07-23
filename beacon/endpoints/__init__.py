@@ -4,6 +4,7 @@ from aiohttp import web
 from .rest import (filtering_terms,
                    info,
                    datasets,
+                   framework,
                    handlers as rest_handlers
 )
 
@@ -33,6 +34,11 @@ routes = [
     # web.get('/api/genomic_snp'                      , genomic_query.handler),
     # web.get('/api/genomic_region'                   , genomic_query.handler),
 
+    # Framework endpoints
+    web.get('/api/configuration'                                     , framework.configuration),
+    web.get('/api/entry_types'                                      , framework.entry_types),
+    web.get('/api/map'                                              , framework.beacon_map),
+
     # Biosamples
     web.post('/api/biosamples'                                      , rest_handlers.biosamples_by_biosample),
     web.post('/api/biosamples/{target_id_req}'                      , rest_handlers.biosamples_by_biosample),
@@ -40,6 +46,13 @@ routes = [
     web.post('/api/biosamples/{target_id_req}/individuals'          , rest_handlers.individuals_by_biosample),
     web.post('/api/biosamples/{target_id_req}/runs'                 , rest_handlers.runs_by_biosample),
     web.post('/api/biosamples/{target_id_req}/variants_in_sample'   , rest_handlers.variants_in_sample_by_biosample),
+
+    web.get('/api/biosamples'                                      , rest_handlers.biosamples_by_biosample),
+    web.get('/api/biosamples/{target_id_req}'                      , rest_handlers.biosamples_by_biosample),
+    web.get('/api/biosamples/{target_id_req}/g_variants'           , rest_handlers.gvariants_by_biosample),
+    web.get('/api/biosamples/{target_id_req}/individuals'          , rest_handlers.individuals_by_biosample),
+    web.get('/api/biosamples/{target_id_req}/runs'                 , rest_handlers.runs_by_biosample),
+    web.get('/api/biosamples/{target_id_req}/variants_in_sample'   , rest_handlers.variants_in_sample_by_biosample),
     
     # Individuals
     web.post('/api/individuals'                              , rest_handlers.individuals_by_individual),
@@ -49,6 +62,13 @@ routes = [
     web.post('/api/individuals/{target_id_req}/cohorts'      , rest_handlers.cohorts_by_individual),
     web.post('/api/individuals/{target_id_req}/interactors'  , rest_handlers.interactors_by_individual),
 
+    web.get('/api/individuals'                              , rest_handlers.individuals_by_individual),
+    web.get('/api/individuals/{target_id_req}'              , rest_handlers.individuals_by_individual),
+    web.get('/api/individuals/{target_id_req}/g_variants'   , rest_handlers.gvariants_by_individual),
+    web.get('/api/individuals/{target_id_req}/biosamples'   , rest_handlers.biosamples_by_individual),
+    web.get('/api/individuals/{target_id_req}/cohorts'      , rest_handlers.cohorts_by_individual),
+    web.get('/api/individuals/{target_id_req}/interactors'  , rest_handlers.interactors_by_individual),
+
     # GVariant
     web.post('/api/g_variants'                                           , rest_handlers.gvariants_by_variant),
     web.post('/api/g_variants/{target_id_req}'                           , rest_handlers.gvariants_by_variant),
@@ -57,11 +77,29 @@ routes = [
     web.post('/api/g_variants/{target_id_req}/variants_in_sample'        , rest_handlers.variants_in_sample_by_variant),
     web.post('/api/g_variants/{target_id_req}/variant_interpretations'   , rest_handlers.variants_interpretations_by_variant),
 
+    web.get('/api/g_variants'                                           , rest_handlers.gvariants_by_variant),
+    web.get('/api/g_variants/{target_id_req}'                           , rest_handlers.gvariants_by_variant),
+    web.get('/api/g_variants/{target_id_req}/biosamples'                , rest_handlers.individuals_by_variant),
+    web.get('/api/g_variants/{target_id_req}/individuals'               , rest_handlers.biosamples_by_variant),
+    web.get('/api/g_variants/{target_id_req}/variants_in_sample'        , rest_handlers.variants_in_sample_by_variant),
+    web.get('/api/g_variants/{target_id_req}/variant_interpretations'   , rest_handlers.variants_interpretations_by_variant),
+
+    # Annotations
+    web.post('/api/variantAnnotations'                                           , rest_handlers.variants_annotation_by_variant),
+
+    web.get('/api/variantAnnotations'                                           , rest_handlers.variants_annotation_by_variant),
+
+
     # Runs
     web.post('/api/runs'                                     , rest_handlers.runs_by_run),
     web.post('/api/runs/{target_id_req}'                     , rest_handlers.runs_by_run),
     web.post('/api/runs/{target_id_req}/biosamples'          , rest_handlers.biosamples_by_run),
     web.post('/api/runs/{target_id_req}/analyses'            , rest_handlers.analyses_by_run),
+
+    web.get('/api/runs'                                     , rest_handlers.runs_by_run),
+    web.get('/api/runs/{target_id_req}'                     , rest_handlers.runs_by_run),
+    web.get('/api/runs/{target_id_req}/biosamples'          , rest_handlers.biosamples_by_run),
+    web.get('/api/runs/{target_id_req}/analyses'            , rest_handlers.analyses_by_run),
 
     # Analyses
     web.post('/api/analyses'                                    , rest_handlers.analyses_by_analysis),
@@ -69,21 +107,38 @@ routes = [
     web.post('/api/analyses/{target_id_req}/runs'               , rest_handlers.runs_by_analysis),
     web.post('/api/analyses/{target_id_req}/variants_in_sample' , rest_handlers.variants_in_sample_by_analysis),
 
+    web.get('/api/analyses'                                    , rest_handlers.analyses_by_analysis),
+    web.get('/api/analyses/{target_id_req}'                    , rest_handlers.analyses_by_analysis),
+    web.get('/api/analyses/{target_id_req}/runs'               , rest_handlers.runs_by_analysis),
+    web.get('/api/analyses/{target_id_req}/variants_in_sample' , rest_handlers.variants_in_sample_by_analysis),
+
     # Variants in sample
     web.post('/api/variants_in_sample'        , rest_handlers.variants_in_sample_by_variants_in_sample),
 
+    web.get('/api/variants_in_sample'        , rest_handlers.variants_in_sample_by_variants_in_sample),
+
     # Variants interpretation
-    web.post('/api/variants_interpretation'   , rest_handlers.variants_interpretations_by_variants_interpretation),
+    web.post('/api/variantInterpretations'   , rest_handlers.variants_interpretations_by_variants_interpretation),
+
+    web.get('/api/variantInterpretations'   , rest_handlers.variants_interpretations_by_variants_interpretation),
 
     # Interactors
     web.post('/api/interactors'                              , rest_handlers.interactors_by_interactor),
     web.post('/api/interactors/{target_id_req}'              , rest_handlers.interactors_by_interactor),
     web.post('/api/interactors/{target_id_req}/individuals'  , rest_handlers.individuals_by_interactor),
 
+    web.get('/api/interactors'                              , rest_handlers.interactors_by_interactor),
+    web.get('/api/interactors/{target_id_req}'              , rest_handlers.interactors_by_interactor),
+    web.get('/api/interactors/{target_id_req}/individuals'  , rest_handlers.individuals_by_interactor),
+
     # Cohorts
     web.post('/api/cohorts'                                  , rest_handlers.cohorts_by_cohort),
     web.post('/api/cohorts/{target_id_req}'                  , rest_handlers.cohorts_by_cohort),
     web.post('/api/cohorts/{target_id_req}/individuals'      , rest_handlers.individuals_by_cohort),
+
+    web.get('/api/cohorts'                                  , rest_handlers.cohorts_by_cohort),
+    web.get('/api/cohorts/{target_id_req}'                  , rest_handlers.cohorts_by_cohort),
+    web.get('/api/cohorts/{target_id_req}/individuals'      , rest_handlers.individuals_by_cohort),
 
     ## HTML UI
     web.get('/'       , html.handlers.index  , name='home'   ),
